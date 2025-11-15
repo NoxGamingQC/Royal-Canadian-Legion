@@ -3,7 +3,6 @@ This project is stricly for the Royal Canadian Legion, it provides, the branch w
 
 [![Type](https://img.shields.io/badge/project%20type-website-blue?style=for-the-badge&labelColor=333333)](#)
 [![State](https://img.shields.io/badge/state-maintained-228C22?style=for-the-badge&labelColor=333333)](#)
-[![Repo size](https://img.shields.io/github/repo-size/NoxGamingQC/Royal-Canadian-Legion?style=for-the-badge&logo=github&logoColor=%23ffffff&labelColor=333333)](#)
 [![License](https://img.shields.io/github/license/NoxGamingQC/Royal-Canadian-Legion?style=for-the-badge&labelColor=333333)](LICENSE.md)
 [![Website](https://img.shields.io/website?url=https%3A%2F%2Frcl.jimmybedard.ca&style=for-the-badge&labelColor=333333)](https://rcl.jimmybedard.ca)
 [![Snyk security](https://img.shields.io/badge/Snyk%20security-monitored-8E48BF?style=for-the-badge&labelColor=333333)](#)
