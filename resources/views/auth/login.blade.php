@@ -24,24 +24,21 @@
                 <div class="row justify-content-center text-center">
                     <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 py-3">
                                 <br />
-                                <div class="text-left"><h1>Connexion au tableau de bord</h1></div>
+                                <div class="text-start"><h1>Connexion au tableau de bord</h1></div>
                                 <hr />
                                 @include('layout.alert')
                             </div>
-                            <div class="col-md-3 text-left">
-                                <img src="/logo.png" width="100%">
-                                <br /><br />
-                                <h4>{{env('PHONE_NUMBER')}}</h4>
-                                <h4>{{env('ADDRESS')}}</h4>
+                            <div class="col-md-3 text-center py-5">
+                                <img class="mx-auto d-block" src="/logo.png" width="100%">
                             </div>
                             <div class="text-center col-md-8">
                                 <br /><br /><br />
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf
 
-                                    <div class="row mb-8  text-center">
+                                    <div class="row mb-8 text-center">
                                         <label for="email" class="col-md-4 col-form-label text-md-end text-right">Courriel</label>
 
                                         <div class="col-md-6">
@@ -57,7 +54,7 @@
                                     <div class="col-md-12">
                                         <br />
                                     </div>
-                                    <div class="row mb-3  text-center">
+                                    <div class="row mb-3 text-center">
                                         <label for="password" class="col-md-4 col-form-label text-md-end text-right">Mot de passe</label>
 
                                         <div class="col-md-6">
@@ -73,14 +70,11 @@
                                     <div class="col-md-12">
                                         <br />
                                     </div>
-                                    <div class="row mb-0 text-left">
-                                        <div class="col-md-12 offset-md-6">
-                                            <div class="input-group">
-                                                <a class="btn btn-secondary" href="/register" type="button">Créer un compte</a>
-                                                <button type="submit" class="btn btn-primary">Se connecter</button>
-                                            </div>
-                                            <br /><br />
-                                        </div>
+                                    <div class="col-10 text-end">
+                                        <button type="submit" class="btn btn-lg btn-primary">Se connecter</button>
+                                        <br /><br />
+                                        <a class="btn btn-link" href="/register" type="button">Créer un compte</a>
+                                        <br /><br />
                                     </div>
                                 </form>
                             </div>
