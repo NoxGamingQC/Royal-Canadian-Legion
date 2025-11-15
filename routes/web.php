@@ -8,7 +8,9 @@ Auth::routes();
 Route::get('/logout', 'App\Http\Controllers\Auth\LogoutController@logout');
 
 //Standard
-Route::get('/', 'App\Http\Controllers\HomeController@index');
+Route::get('/', function () {
+    return redirect('/login');
+});
 Route::get('/about_us/history', 'App\Http\Controllers\HomeController@history');
 Route::get('/about_us/mission', 'App\Http\Controllers\HomeController@mission');
 Route::get('/about_us/our_team', 'App\Http\Controllers\HomeController@ourTeam');
