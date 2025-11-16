@@ -1,13 +1,14 @@
 <?php 
     use Carbon\Carbon;
     use App\Models\Transaction;
+    use App\Models\Branches;
 ?>
 @extends('layout.app')
 @section('content')
 <style>
 @page {
     @top-center { 
-        content: '{{env('NAME')}} - Rapport du bar ({{$firstDay->format('Y-m-d')}} - {{$secondDay->format('Y-m-d')}})'; 
+        content: '{{Branches::where("command", Auth::user()->getUserCommand())->where("branch_id", Auth::user()->getUserBranch())->first()->name}} - Rapport de ventes'; 
     }
     @bottom-left { 
         content: 'Généré par Services Tech. J.Bédard'

@@ -143,7 +143,7 @@ class DashboardController extends Controller
         return redirect('/')->withErrors(['message' => 'Accès non authorisé']);
     }
 
-    public function getTransactions($firstDay, $secondDay) {
+    public function getTransactions($branch, $firstDay, $secondDay) {
         if(Auth::check()) {
             if(Auth::user()->is_authorized) {
                 $user = Auth::user();
@@ -169,7 +169,7 @@ class DashboardController extends Controller
         return redirect('/')->withErrors(['message' => 'Accès non authorisé']);
     }
 
-    public function getReports($firstDay, $secondDay) {
+    public function getReports($branch, $firstDay, $secondDay) {
         if(Auth::check()) {
             if(Auth::user()->is_authorized) {
                 $user = Auth::user();

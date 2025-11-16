@@ -34,7 +34,7 @@ class POSController extends Controller
         ]);
     }
 
-    public function validateCashier(Request $request, $pin, $option) {
+    public function validateCashier(Request $request,$branch, $pin, $option) {
         OauthToken::validate($request);
         $cashier = Pin::where('pin', '=', $pin)->first();
         if(!isset($cashier)) {
@@ -64,7 +64,7 @@ class POSController extends Controller
         abort(403, 'pin_error');
     }
 
-    public function menu(Request $request, $cashierID)
+    public function menu(Request $request,$branch, $cashierID)
     {
             OauthToken::validate($request);
         
@@ -98,7 +98,7 @@ class POSController extends Controller
         return redirect('/pos/');
     }
 
-    public function kitshop(Request $request) {
+    public function kitshop(Request $request,$branch) {
         OauthToken::validate($request);
         
         $items = KitshopItem::all()->sortBy('name');
@@ -216,7 +216,7 @@ class POSController extends Controller
         abort(403);
     }
 
-    public function inventoryMenu (Request $request, $cashierID) {
+    public function inventoryMenu (Request $request, $branch, $cashierID) {
         OauthToken::validate($request);
         
         $cashier = Pin::find($cashierID);  
@@ -226,7 +226,7 @@ class POSController extends Controller
         ]);
     }
 
-    public function fullInventoryCount (Request $request, $cashierID) {
+    public function fullInventoryCount (Request $request, $branch, $cashierID) {
         OauthToken::validate($request);
         $cashier = Pin::find($cashierID);  
         return view('view.pos.inventory')->with([

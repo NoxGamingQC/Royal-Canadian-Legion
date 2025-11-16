@@ -71,13 +71,13 @@ $('.input-daterange').datepicker({
 
 $('#searchDate').on('click', function() {
     if($('.input-daterange').data().datepicker.dates[0]) {
-        window.location.href = "/transactions/" + moment($('.input-daterange').data().datepicker.dates[0]).utcOffset(5).format('YYYY-MM-DD') + '/' + moment($('.input-daterange').data().datepicker.dates[1]).utcOffset(5).format('YYYY-MM-DD');
+        window.location.href = "/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/transactions/" + moment($('.input-daterange').data().datepicker.dates[0]).utcOffset(5).format('YYYY-MM-DD') + '/' + moment($('.input-daterange').data().datepicker.dates[1]).utcOffset(5).format('YYYY-MM-DD');
     }
 })
 
 $('#generateReport').on('click', function() {
     if($('.input-daterange').data().datepicker.dates[0]) {
-        window.location.href = "/reports/" + moment($('.input-daterange').data().datepicker.dates[0]).utcOffset(5).format('YYYY-MM-DD') + '/' + moment($('.input-daterange').data().datepicker.dates[1]).utcOffset(5).format('YYYY-MM-DD');
+        window.location.href = "/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/reports/" + moment($('.input-daterange').data().datepicker.dates[0]).utcOffset(5).format('YYYY-MM-DD') + '/' + moment($('.input-daterange').data().datepicker.dates[1]).utcOffset(5).format('YYYY-MM-DD');
     }
 })
 
