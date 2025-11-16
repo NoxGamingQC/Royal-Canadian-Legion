@@ -385,7 +385,7 @@ $(document).ready(function() {
                 });
             });
             $.ajax({
-                url: "/pos/invoice/edit?token={{$token}}",
+                url: "/{{$fullBranchID}}/pos/invoice/edit?token={{$token}}",
                 type: "POST",
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -437,7 +437,7 @@ $(document).ready(function() {
     $('.physical-count').each(function() {
         var item = $(this);
         $.ajax({
-            url: "/pos/getInventory/" + $(this).attr('id') + "?token={{$token}}",
+            url: "/{{$fullBranchID}}/pos/getInventory/" + $(this).attr('id') + "?token={{$token}}",
             type: "GET",
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -465,7 +465,7 @@ $(document).ready(function() {
             });
         });
         $.ajax({
-            url: "/pos/pay?token={{$token}}",
+            url: "/{{$fullBranchID}}/pos/pay?token={{$token}}",
             type: "POST",
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -495,7 +495,7 @@ $(document).ready(function() {
 
     function adjustInventory(item) {
         $.ajax({
-            url: "/pos/inventory?token={{$token}}",
+            url: "/{{$fullBranchID}}/pos/inventory?token={{$token}}",
             type: "POST",
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -593,7 +593,7 @@ function onInactive(){
 }
 
 function doInactive() {
-    document.location.href = '/pos?token={{$token}}'
+    document.location.href = '/{{$fullBranchID}}/pos?token={{$token}}'
 }
 </script>
 @endsection
