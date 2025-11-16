@@ -1,9 +1,21 @@
 @extends('layout.pos')
 @section('content')
+<?php
+    use App\Models\Branches;
+
+    $fullBranchID = explode('/', $_SERVER['REQUEST_URI'])[1];
+    $branchCommand = explode('-', explode('/', $_SERVER['REQUEST_URI'])[1])[0];
+    $branchNumber = explode('-', explode('/', $_SERVER['REQUEST_URI'])[1])[1];
+    $branch = Branches::where('command', $branchCommand)->where('branch_id', $branchNumber)->first();
+    $name = $branch->name;
+    $phone_number = $branch->phone;
+    $address = nl2br($branch->address);
+    $logo = $branch->logo;
+?>
 
 <div class="row" style="margin:0px;padding:0px;">
     <div class="col-4 text-center" style="min-height:100vh;overflow:hidden;margin:0px;padding:0px;">
-        <img src="{{env('LOGO')}}" alt="{{$name}}" height="100px" style="margin-top:40%;">
+        <img src="{{$logo}}" alt="{{$name}}" height="100px" style="margin-top:40%;">
         <br /><br />
         <h4>{{$phone_number}}</h4>
         <h4>{!!$address!!}</h4>
@@ -41,7 +53,7 @@
         <a class="menu-button btn btn-lg btn-danger" style="margin-left:10%;padding-top:5%;padding-bottom:5%;padding-left:12%;width:90%;max-width:90%"><h1>Menu</h1></a>
         <br />
         <br />
-        <a class="inventory-button btn btn-lg btn-danger" style="margin-left:10%;padding-top:5%;padding-bottom:5%;padding-left:12%;width:90%;max-width:90%"><h1>Inventaire</h1></a>
+        <a class="inventory-button btn btn-lg btn-danger disabled" disabled style="margin-left:10%;padding-top:5%;padding-bottom:5%;padding-left:12%;width:90%;max-width:90%"><h1>Inventaire</h1></a>
         <br />
         <br /><a class="btn btn-lg btn-danger disabled" disabled style="margin-left:10%;padding-top:5%;padding-bottom:5%;padding-left:12%;width:90%;max-width:90%"><h1>Rapport</h1></a>
         <br />
@@ -76,7 +88,7 @@ $('.pin-erase').on('click', function() {
 $('.menu-button').on('click', function() {
     var pin = $('#pin').attr('value');
     $.ajax({
-        url: "/pos/validate/" + pin + "/menu?token={{$token}}",
+        url: "/{{$fullBranchID}}/pos/validate/" + pin + "/menu?token={{$token}}",
         type: "POST",
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -90,9 +102,9 @@ $('.menu-button').on('click', function() {
         success: function (result) {
             $('#pin').html('<h3 class="text-success">Bonjour, ' + result.name + '</h3>');
             if(result.hasAllAccess || result.hasMenuAccess) {
-                window.location.replace("/pos/menu/" + result.id + '?token={{$token}}');
+                window.location.replace("/{{$fullBranchID}}/pos/menu/" + result.id + '?token={{$token}}');
             } else if(result.hasKitshopAccess) {
-                window.location.replace("/pos/kitshop/" + result.id + '?token={{$token}}');
+                window.location.replace("/{{$fullBranchID}}/pos/kitshop/" + result.id + '?token={{$token}}');
             }
         },
         error: function (error) {
@@ -115,7 +127,7 @@ $('.menu-button').on('click', function() {
 $('.inventory-button').on('click', function() {
     var pin = $('#pin').attr('value');
     $.ajax({
-        url: "/pos/validate/" + pin + "/menu?token={{$token}}",
+        url: "/{{$fullBranchID}}/pos/validate/" + pin + "/menu?token={{$token}}",
         type: "POST",
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -127,7 +139,7 @@ $('.inventory-button').on('click', function() {
         },
         success: function (result) {
             $('#pin').html('<h3 class="text-success">Bonjour, ' + result.name + '</h3>');
-            window.location.replace("/pos/inventory/" + result.id + '?token={{$token}}');
+            window.location.replace("/{{$fullBranchID}}/pos/inventory/" + result.id + '?token={{$token}}');
         },
         error: function (error) {
             $('#pin').attr('value', '')

@@ -1,5 +1,17 @@
 @extends('layout.pos')
 @section('content')
+<?php
+    use App\Models\Branches;
+
+    $fullBranchID = explode('/', $_SERVER['REQUEST_URI'])[1];
+    $branchCommand = explode('-', explode('/', $_SERVER['REQUEST_URI'])[1])[0];
+    $branchNumber = explode('-', explode('/', $_SERVER['REQUEST_URI'])[1])[1];
+    $branch = Branches::where('command', $branchCommand)->where('branch_id', $branchNumber)->first();
+    $name = $branch->name;
+    $phone_number = $branch->phone;
+    $address = nl2br($branch->address);
+    $logo = $branch->logo;
+?>
 
 <div style="position:absolute;margin:20vh;margin-left:30vh;z-index:99">
     <h1 id="amount" class="text-success" value="0"></h1>
@@ -55,7 +67,7 @@
             <div id="items" class="col-8 text-center" style="overflow:hidden;margin:0px;padding:0px;">
                 <div class="row">
                     <div class="col-2" style="margin:0px !important;padding:0px !important;border: 0.5px solid black">
-                        <a class="btn btn-lg" href="/pos?token={{$token}}" style="min-height:12vh;max-height:12vh;height:100%;width:100%; margin:0px !important;padding:0px !important;overflow:hidden;border-radius:0px;">
+                        <a class="btn btn-lg" href="/{{$fullBranchID}}/pos?token={{$token}}" style="min-height:12vh;max-height:12vh;height:100%;width:100%; margin:0px !important;padding:0px !important;overflow:hidden;border-radius:0px;">
                             <li style="margin-top:3vh;list-style-type: none;overflow:hidden;padding-top:0px !important;padding:2px;color: #f00;border-radius: 5px;opacity: 0.85;">Fermer<br />session</li>
                         </a>
                     </div>                        
