@@ -9,6 +9,9 @@ Route::get('/logout', 'App\Http\Controllers\Auth\LogoutController@logout');
 
 //Standard
 Route::get('/', function () {
+    if(Auth::check()) {
+        return redirect('/' . Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch() . '/dashboard');
+    }
     return redirect('/login');
 });
 Route::get('/about_us/history', 'App\Http\Controllers\HomeController@history');

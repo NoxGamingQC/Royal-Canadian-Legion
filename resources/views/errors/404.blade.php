@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.pos')
 @section('content')
 
 <div class="container">
@@ -9,6 +9,8 @@
             <br />
             <h1 class="text-danger">Page non trouvée</h1>
             <p>La page que vous recherchez n'existe pas.</p>
+            <br /><br />
+            <a href="{{'/' }}" class="btn btn-danger btn-lg">Retour à la page d'accueil</a>
         </div>
     </div>
 </div>
