@@ -232,12 +232,12 @@
             }
         }
     });
-    
+
     const mostSoldCategoriesCanvas = document.getElementById('mostSoldCategories').getContext('2d');
     const mostSoldCategories = new Chart(mostSoldCategoriesCanvas, {
         type: 'pie', // e.g., 'line', 'pie', 'doughnut', 'scatter'
         data: {
-        labels: ('{!!implode(',', $categories_name)!!}').split(','),
+        labels: ("{!! implode(',', $categories_name)!!}").split(','),
         datasets: [{
             label: 'Catégories les plus vendus',
             data: ('{{implode(',', $categories_sum)}}').split(','),
