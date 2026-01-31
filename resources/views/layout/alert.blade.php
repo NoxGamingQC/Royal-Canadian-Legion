@@ -7,10 +7,16 @@
         @endforeach
     @endif
 @endif
+@if(isset($successes))
+    @if(count($successes) > 0)
+        @foreach($successes as $success)
+            <div class="alert alert-success" role="alert">
+                {{$success}}
+            </div>
+        @endforeach
+    @endif
+@endif
 <!--
-<div class="alert alert-success" role="alert">
-  A simple success alert—check it out!
-</div>
 
 <div class="alert alert-warning" role="alert">
   A simple warning alert—check it out!

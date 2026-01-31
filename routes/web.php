@@ -43,4 +43,5 @@ Route::middleware('branch')->group(function () {
     Route::get('/{branch_id}/inventory', 'App\Http\Controllers\DashboardController@getInventory');
     Route::get('/{branch_id}/items', 'App\Http\Controllers\DashboardController@items');
     Route::get('/{branch_id}/members', 'App\Http\Controllers\DashboardController@memberList');
+    Route::get('/member/remove/{id}', 'App\Http\Controllers\MemberController@remove');
 });
