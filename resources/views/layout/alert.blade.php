@@ -1,17 +1,17 @@
 @if(isset($errors))
-    @if(count($errors->all()) > 0)
-        @foreach($errors->all() as $error)
+    @if(count($errors) > 0)
+        @foreach($errors as $error)
             <div class="alert alert-danger" role="alert">
                 {{$error}}
             </div>
         @endforeach
     @endif
 @endif
-@if(isset($successes))
+@if(isset($success))
     @if(count($successes) > 0)
-        @foreach($successes as $success)
+        @foreach($success as $success_alert)
             <div class="alert alert-success" role="alert">
-                {{$success}}
+                {{$success_alert}}
             </div>
         @endforeach
     @endif

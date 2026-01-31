@@ -8,9 +8,46 @@ use App\Models\Customer;
 
 class MemberController extends Controller
 {
+    public function edit($id)
+    {
+        if (Auth::check()) {
+            $member = Customer::find($id);
+
+            if ($member) {
+                return view('view.dashboard.member_edit', ['member' => $member]);
+            } else {
+                return redirect()->back()->with('errors', ['Membre non trouvé.']);
+            }
+        } else {
+            return redirect('/login')->with('errors', ['Vous devez être connecté pour effectuer cette action.']);
+        }
+    }
+
+    public function update($id)
+    {
+        if (Auth::check()) {
+            $member = Customer::find($id);
+
+            if ($member) {
+                $member->member_id = request()->input('member_id');
+                $member->firstname = request()->input('firstname');
+                $member->lastname = request()->input('lastname');
+                $member->email_address = request()->input('email_address');
+                $member->phone_number = request()->input('phone_number');
+                $member->last_year_paid = request()->input('last_year_paid');
+                $member->save();
+
+                return redirect('/' . Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch() . '/members')->with('success', ['Membre mis à jour avec succès.']);
+            } else {
+                return redirect()->back()->with('errors', ['Membre non trouvé.']);
+            }
+        } else {
+            return redirect('/login')->with('errors', ['Vous devez être connecté pour effectuer cette action.']);
+        }
+    }
+
     public function remove($id)
     {
-        dd(Auth::check());
         if (Auth::check()) {
             $member = Customer::find($id);
 
@@ -19,7 +56,7 @@ class MemberController extends Controller
             } else {
                 return redirect()->back()->with('errors', ['Membre non trouvé.']);
             }
-            return redirect()->back()->with('successes', ['Membre supprimé avec succès.']); 
+            return redirect()->back()->with('success', ['Membre supprimé avec succès.']); 
         } else {
             return redirect('/login')->with('errors', ['Vous devez être connecté pour effectuer cette action.']);
         }
