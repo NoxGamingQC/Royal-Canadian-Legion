@@ -32,23 +32,23 @@
                 @endguest
                 @auth
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/dashboard">Tableau de bord</a>
+                                <a class="nav-link" aria-current="page" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> Tableau de bord</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/transactions">Transactions</a>
+                                <a class="nav-link" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/transactions"><i class="fa fa-credit-card" aria-hidden="true"></i> Transactions</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/items">Articles</a>
+                                <a class="nav-link" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/items"><i class="fa fa-archive" aria-hidden="true"></i> Articles</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/inventory">Inventaire</a>
+                                <a class="nav-link" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/inventory"><i class="fa fa-archive" aria-hidden="true"></i> Inventaire</a>
                             </li>
                     </li>
                 @endauth
             </ul>
             @auth
             <form class="d-flex" method="get" action="/logout">
-                <button class="nav-link" aria-disabled="true">Déconnexion</button>
+                <button class="nav-link" aria-disabled="true"><i class="fa fa-sign-out" aria-hidden="true"></i> Déconnexion</button>
             </form>
             @endauth
             @guest
