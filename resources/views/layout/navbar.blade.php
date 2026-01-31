@@ -32,7 +32,7 @@
                 @endguest
                 @auth
                             <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/dashboard">Tableau de bord</a>
+                                <a class="nav-link" aria-current="page" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> Tableau de bord</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/transactions">Transactions</a>
