@@ -23,6 +23,33 @@ class MemberController extends Controller
         }
     }
 
+    public function create() 
+    {
+        if (Auth::check()) {
+            return view('view.dashboard.member_create');
+        } else {
+            return redirect('/login')->with('errors', ['Vous devez être connecté pour effectuer cette action.']);
+        }
+    }
+
+    public function store()
+    {
+        if (Auth::check()) {
+            $member = new Customer();
+            $member->member_id = request()->input('member_id');
+            $member->firstname = request()->input('firstname');
+            $member->lastname = request()->input('lastname');
+            $member->email_address = request()->input('email_address');
+            $member->phone_number = request()->input('phone_number');
+            $member->last_year_paid = request()->input('last_year_paid');
+            $member->save();
+
+            return redirect('/' . Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch() . '/members')->with('success', ['Membre créé avec succès.']);
+        } else {
+            return redirect('/login')->with('errors', ['Vous devez être connecté pour effectuer cette action.']);
+        }
+    }
+
     public function update($id)
     {
         if (Auth::check()) {

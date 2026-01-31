@@ -15,7 +15,7 @@
 </style>
 <div class="container-fluid">
     <br />
-    <h1>Liste des membres en règle ({{date('Y')}}) &nbsp;<a type="button" class="no-print btn btn-lg btn-success" href="#"><i class="fa fa-plus" aria-hidden="true"></i></a></h1>
+    <h1>Liste des membres en règle ({{date('Y')}}) &nbsp;<a type="button" class="no-print btn btn-lg btn-success" href="/member/create"><i class="fa fa-plus" aria-hidden="true"></i></a></h1>
     <br />
     <table class="table table-bordered">
         <thead>
