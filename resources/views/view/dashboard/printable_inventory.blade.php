@@ -7,10 +7,9 @@
             <div class="col-md-12 text-center">
                 <h1>Inventaire - Liste imprimable</h1>
             </div>
+        </div>
     </div>
     <br />
-    <div class="card card-body">
-
         @foreach($categories as $category)
             @if($category->inventory == 0 && $category->inventory !== null && $category->is_active)
                 <?php
@@ -40,6 +39,8 @@
             @endif
         @endforeach
         @if(isset($outofstockCount) && $outofstockCount > 0)
+            
+        <div class="card card-body">
             <h2>Articles en rupture de stock</h2>
             <table class="table table-bordered">
                 <thead>
@@ -71,8 +72,11 @@
                     @endforeach
                 </tbody>
             </table>
-        @endif
-        @if(isset($lowInventoryCount) && $lowInventoryCount > 0)
+        </div>
+        <br />
+    @endif
+    @if(isset($lowInventoryCount) && $lowInventoryCount > 0)
+        <div class="card card-body">
             <h2>Articles à faible inventaire</h2>
             <table class="table table-bordered">
                 <thead>
@@ -103,10 +107,10 @@
                     @endforeach
                 </tbody>
             </table>
-        @endif
-        @if((!isset($outofstockCount) || $outofstockCount == 0) && (!isset($lowInventoryCount) || $lowInventoryCount == 0))
-            <h2>Aucun article n'a besoin d'être réapprovisionné.</h2>
-        @endif
-    </div>
+        </div>
+    @endif
+    @if((!isset($outofstockCount) || $outofstockCount == 0) && (!isset($lowInventoryCount) || $lowInventoryCount == 0))
+        <h2>Aucun article n'a besoin d'être réapprovisionné.</h2>
+    @endif
 </div>
 @endsection
