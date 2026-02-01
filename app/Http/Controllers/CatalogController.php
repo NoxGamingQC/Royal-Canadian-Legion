@@ -26,6 +26,23 @@ class CatalogController extends Controller
         ]);
     }
 
+    public function updateCategory(Request $request, $category_id)
+    {
+        $category = Catalog::find($category_id);
+        if (!$category) {
+            return redirect()->back()->with('error', 'Category not found.');
+        }
+        $category->fullname = $request->fullname;
+        $category->name = $request->name;
+        $category->is_active = $request->is_active ? true : false;
+        $category->inventory = $request->inventory;
+        $category->alert_threshold = $request->alert_threshold;
+        $category->price = $request->price;
+        $category->save();
+
+        return redirect()->back()->with('success', 'Category updated successfully.');
+    }
+
     public function updateItem(Request $request, $item_id)
     {
         $item = Item::find($item_id);

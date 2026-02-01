@@ -39,7 +39,7 @@
                         @endforeach
                     @else
                         <div class="col-md-4">
-                            <a href="/category/{{$category->id}}" class="text-start btn btn-light card {{!$category->is_active ? 'text-bg-secondary disabled' : (is_null ($category->inventory) ? 'border-success' : ($category->inventory > $category->alert_threshold ? 'border-success' : ($category->inventory == 0 ? 'border-danger text-bg-danger' : 'border-warning text-bg-warning')))}}">
+                            <a href="/category/{{$category->id}}" class="text-start btn btn-light card {{!$category->is_active ? 'border-secondary' : (is_null ($category->inventory) ? 'border-success' : ($category->inventory > $category->alert_threshold ? 'border-success' : ($category->inventory == 0 ? 'border-danger text-bg-danger' : 'border-warning text-bg-warning')))}}">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-3">
@@ -49,12 +49,14 @@
                                             <span><b>Articles de base</b></span>
                                             <br />
                                             <small>Catégorie: {{$category->fullname}}</small>
+                                            <br />
                                             @if($category->inventory !== null)
                                                     <p class="badge {{is_null($category->inventory) ? 'text-bg-secondary' : ($category->inventory > $category->alert_threshold ? 'text-bg-success' : ($category->inventory == 0 ? 'text-bg-danger' : 'text-bg-warning'))}}">Disponible: {{$category->inventory}}</p>
                                             @endif
+                                            <p class="badge {{!$category->is_active ? 'text-bg-danger' : 'text-bg-success'}}">{{!$category->is_active ? 'Inactif' : 'Actif'}}</p>
                                         </div>
                                         <div class="col-3">
-                                            ${{$item->price}}
+                                            ${{$category->price}}
                                         </div>
                                     </div>
                                 </div>
