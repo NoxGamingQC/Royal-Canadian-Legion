@@ -20,7 +20,7 @@
             <input type="hidden" id="item_id" value="{{$item->id}}" />
             <div class="row">
                 <div class="col-md-6 text-center">
-                    <img src="{{$item->image}}" alt="{{$item->name}}" class="img-fluid img-thumbnail"/>
+                    <img id="image_preview" src="{{$item->image}}" alt="{{$item->name}}" class="img-fluid img-thumbnail"/>
                     <input type="file" id="image" name="image" class="form-control form-control-lg mt-2" accept="image/*" />
                 </div>
                 <div class="col-md-6">
@@ -86,7 +86,7 @@
         if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                document.querySelector('img').src = e.target.result;
+                $('#image_preview').attr('src', e.target.result);
             }
             reader.readAsDataURL(file);
         }
@@ -96,6 +96,7 @@
         var data = {
             name: $('#name').val(),
             price: $('#price').val(),
+            image: $('#image_preview').attr('src'),
             is_active: $('#isActive').is(':checked') ? 1 : 0,
             inventory: $('#inventory').val(),
             alert_threshold: $('#alert_threshold').val()

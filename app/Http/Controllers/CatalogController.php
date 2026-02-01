@@ -21,6 +21,9 @@ class CatalogController extends Controller
         if (!$item) {
             return redirect()->back()->with('error', 'Item not found.');
         }
+        if($request->image) {
+            $item->image = $request->image;
+        }
         $item->name = $request->name;
         $item->price = $request->price;
         $item->inventory = $request->inventory;
