@@ -21,23 +21,38 @@ class Transaction extends Model
 
     public function getItemName () {
         if ($this->item_id) {
-            $item = DB::table('bar_items')
+            $itemSearch = DB::table('bar_items')
                     ->where('id', '=', $this->item_id)
-                    ->first()->name;
+                    ->first();
+            if (isset($itemSearch)) {
+                $item = $itemSearch->name;
+            } else {
+                $item = 'Article supprimé';
+            }
 
         } else {
-            $item = DB::table('bar_item_category')
+            $itemSearch = DB::table('bar_item_category')
                     ->where('id', '=', $this->category_id)
-                    ->first()->fullname;
+                    ->first();
+            if (isset($itemSearch)) {
+                $item = $itemSearch->fullname;
+            } else {
+                $item = 'Catégorie supprimée';
+            }
         }
         return $item;
     }
 
     public function getCategoryName() {
-        $item = DB::table('bar_item_category')
+        $itemSearch = DB::table('bar_item_category')
                 ->where('id', '=', $this->category_id)
                 ->first();
-        return $item->fullname;
+        if (isset($itemSearch)) {
+                $item = $itemSearch->fullname;
+        } else {
+            $item = 'Catégorie supprimée';
+        }
+        return $item;
     }
 
     public function scopeTotalCount($query) {
