@@ -108,7 +108,6 @@
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },
             success: function(response) {
-                alert('Article mis à jour avec succès!');
                 location.href = '/'.concat('{{ Auth::user()->getUserCommand() }}', '-', '{{ Auth::user()->getUserBranch() }}', '/inventory');
             },
             error: function(xhr) {
