@@ -5,10 +5,12 @@
     <br />
     <div class="card card-body">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <h1>Inventaire</h1>
             </div>
-            <div class="col-md-6 text-end">
+            <div class="col-md-8 text-end">
+                <a href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/inventory/count" class="btn btn-outline-primary btn-lg">Calcul de l'inventaire</a>
+                <a href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/inventory/print" class="btn btn-outline-primary btn-lg">Liste de commandes imprimable</a>
                 <a href="/item/new/create" class="btn btn-outline-success btn-lg">Créer un nouvel article</a>
             </div>
     </div>

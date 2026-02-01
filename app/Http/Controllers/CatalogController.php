@@ -21,6 +21,20 @@ class CatalogController extends Controller
         ]);
     }
 
+    public function printableInventory() {
+        return view('view.dashboard.printable_inventory')->with([
+            'categories' => Catalog::all(),
+            'items' => Item::all(),
+        ]);
+    }
+
+    public function inventoryCount() {
+        return view('view.dashboard.inventory_count')->with([
+            'categories' => Catalog::where('is_active', true)->where('inventory', '!=', null)->get(),
+            'items' => Item::where('is_active', true)->where('inventory', '!=', null)->get(),
+        ]);
+    }
+
     public function storeItem(Request $request) {
         if($request->category === 'new') {
             $category = new Catalog();
