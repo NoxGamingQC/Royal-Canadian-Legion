@@ -42,6 +42,7 @@ Route::middleware('branch')->group(function () {
     Route::get('/{branch_id}/reports/{firstDay}/{secondDay}', 'App\Http\Controllers\DashboardController@getReports');
     Route::get('/{branch_id}/inventory', 'App\Http\Controllers\DashboardController@getInventory');
     Route::get('/{branch_id}/inventory/print', 'App\Http\Controllers\CatalogController@printableInventory');
+    Route::get('/{branch_id}/inventory/count', 'App\Http\Controllers\CatalogController@inventoryCount');
     Route::get('/{branch_id}/members', 'App\Http\Controllers\DashboardController@memberList');
     });
     
