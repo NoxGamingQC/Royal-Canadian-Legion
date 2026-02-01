@@ -16,9 +16,21 @@
 <div class="container-fluid">
     <br />
     <div class="card card-body">
-        <h1 id="allMembersTitle">Liste des membres ({{date('Y')}}) &nbsp;<a type="button" class="no-print btn btn-lg btn-success" href="/member/create"><i class="fa fa-plus" aria-hidden="true"></i></a></h1>
-        <h1 id="activeMembersTitle" hidden>Liste des membres actifs ({{date('Y')}}) &nbsp;<a type="button" class="no-print btn btn-lg btn-success" href="/member/create"><i class="fa fa-plus" aria-hidden="true"></i></a></h1>
-        <h1 id="inactiveMembersTitle" hidden>Liste des membres inactifs ({{date('Y')}}) &nbsp;<a type="button" class="no-print btn btn-lg btn-success" href="/member/create"><i class="fa fa-plus" aria-hidden="true"></i></a></h1>
+        <h1 id="allMembersTitle">Liste des membres ({{date('Y')}}) &nbsp;
+            @if(Auth::user()->hasPermission('edit_members'))
+            <a type="button" class="no-print btn btn-lg btn-success" href="/member/create"><i class="fa fa-plus" aria-hidden="true"></i></a>
+            @endif
+            </h1>
+        <h1 id="activeMembersTitle" hidden>Liste des membres actifs ({{date('Y')}}) &nbsp;
+            @if(Auth::user()->hasPermission('edit_members'))
+            <a type="button" class="no-print btn btn-lg btn-success" href="/member/create"><i class="fa fa-plus" aria-hidden="true"></i></a>
+            @endif
+        </h1>
+        <h1 id="inactiveMembersTitle" hidden>Liste des membres inactifs ({{date('Y')}}) &nbsp;
+            @if(Auth::user()->hasPermission('edit_members'))
+            <a type="button" class="no-print btn btn-lg btn-success" href="/member/create"><i class="fa fa-plus" aria-hidden="true"></i></a>
+            @endif
+        </h1>
     </div>
     <br class="no-print"/>
     <div id="filter" class="card card-body no-print">
@@ -39,7 +51,9 @@
                     <th>Téléphone</th>
                     <th>Courriel</th>
                     <th>Année payé</th>
+                    @if(Auth::user()->hasPermission('edit_members'))
                     <th class="no-print">Actions</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>
@@ -52,8 +66,9 @@
                             <td>{{ $member->phone_number }}</td>
                             <td>{{ $member->email_address }}</td>
                             <td>{{ $member->last_year_paid }}</td>
+                            @if(Auth::user()->hasPermission('edit_members'))
                             <td class="no-print text-center"><a type="button" class="btn btn-sm btn-warning" href="/member/edit/{{$member->id}}"><i class="fa fa-pencil" aria-hidden="true"></i></a>&nbsp;&nbsp;<a type="button" class="btn btn-sm btn-danger" href="/member/remove/{{$member->id}}"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
-
+                            @endif
                         </tr>
                     @endif
                 @endforeach

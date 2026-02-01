@@ -16,26 +16,37 @@ use Illuminate\Http\Request;
 class CatalogController extends Controller
 {
     public function createItem() {
-        return view('view.dashboard.create_item')->with([
-            'categories' => Catalog::all(),
-        ]);
+        if(Auth::user()->hasPermission('inventory')) {
+            return view('view.dashboard.create_item')->with([
+                'categories' => Catalog::all(),
+            ]);
+        }
+        abort(403);
     }
 
     public function printableInventory() {
-        return view('view.dashboard.printable_inventory')->with([
-            'categories' => Catalog::all(),
-            'items' => Item::all(),
-        ]);
+        if(Auth::user()->hasPermission('inventory')) {
+            return view('view.dashboard.printable_inventory')->with([
+                'categories' => Catalog::all(),
+                'items' => Item::all(),
+            ]);
+        }
+        abort(403);
     }
 
     public function inventoryCount() {
-        return view('view.dashboard.inventory_count')->with([
-            'categories' => Catalog::where('is_active', true)->where('inventory', '!=', null)->get(),
-            'items' => Item::where('is_active', true)->where('inventory', '!=', null)->get(),
-        ]);
+        if(Auth::user()->hasPermission('inventory')) {
+            return view('view.dashboard.inventory_count')->with([
+                'categories' => Catalog::where('is_active', true)->where('inventory', '!=', null)->get(),
+                'items' => Item::where('is_active', true)->where('inventory', '!=', null)->get(),
+            ]);
+        }
     }
 
     public function storeItem(Request $request) {
+        if(!Auth::user()->hasPermission('inventory')) {
+            abort(403);
+        }
         if($request->category === 'new') {
             $category = new Catalog();
             $category->fullname = $request->name;
@@ -67,6 +78,9 @@ class CatalogController extends Controller
 
     public function category($category_id)
     {
+        if(!Auth::user()->hasPermission('inventory')) {
+            abort(403);
+        }
         $category = Catalog::find($category_id);
         if (!$category) {
             return redirect()->back()->with('error', 'Category not found.');
@@ -78,6 +92,9 @@ class CatalogController extends Controller
 
     public function updateCategory(Request $request, $category_id)
     {
+        if(!Auth::user()->hasPermission('inventory')) {
+            abort(403);
+        }
         $category = Catalog::find($category_id);
         if (!$category) {
             return redirect()->back()->with('error', 'Category not found.');
@@ -96,6 +113,9 @@ class CatalogController extends Controller
 
     public function removeCategory($category_id)
     {
+        if(!Auth::user()->hasPermission('inventory')) {
+            abort(403);
+        }
         $category = Catalog::find($category_id);
         if (!$category) {
             return redirect()->back()->with('error', 'Category not found.');
@@ -107,6 +127,9 @@ class CatalogController extends Controller
 
     public function updateItem(Request $request, $item_id)
     {
+        if(!Auth::user()->hasPermission('inventory')) {
+            abort(403);
+        }
         $item = Item::find($item_id);
         if (!$item) {
             return redirect()->back()->with('error', 'Item not found.');
@@ -126,6 +149,9 @@ class CatalogController extends Controller
 
     public function removeItem($item_id)
     {
+        if(!Auth::user()->hasPermission('inventory')) {
+            abort(403);
+        }
         $item = Item::find($item_id);
         if (!$item) {
             return redirect()->back()->with('error', 'Item not found.');

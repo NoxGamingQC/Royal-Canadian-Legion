@@ -126,6 +126,9 @@ class DashboardController extends Controller
     }
 
     public function transactions() {
+        if(!Auth::user()->hasPermission('transactions')) {
+            abort(403);
+        }
         if(Auth::check()) {
             if(Auth::user()->is_authorized) {
                 $user = Auth::user();
@@ -144,6 +147,9 @@ class DashboardController extends Controller
     }
 
     public function getTransactions($branch, $firstDay, $secondDay) {
+        if(!Auth::user()->hasPermission('transactions')) {
+            abort(403);
+        }
         if(Auth::check()) {
             if(Auth::user()->is_authorized) {
                 $user = Auth::user();
@@ -170,6 +176,9 @@ class DashboardController extends Controller
     }
 
     public function getReports($branch, $firstDay, $secondDay) {
+        if(!Auth::user()->hasPermission('transactions')) {
+            abort(403);
+        }
         if(Auth::check()) {
             if(Auth::user()->is_authorized) {
                 $user = Auth::user();
@@ -217,6 +226,9 @@ class DashboardController extends Controller
     }
     public function memberList() {
         if(Auth::check()) {
+            if(!Auth::user()->hasPermission('see_members') || !Auth::user()->hasPermission('edit_members')) {
+                abort(403);
+            }
             $members = Customer::all()->sortBy('lastname');
             return view('view.dashboard.members_list')->with([
                 'active_tab' => 'members',

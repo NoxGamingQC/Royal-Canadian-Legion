@@ -118,7 +118,6 @@
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
             },
             success: function(response) {
-                alert('Catégorie mise à jour avec succès!');
                 location.href = '/'.concat('{{ Auth::user()->getUserCommand() }}', '-', '{{ Auth::user()->getUserBranch() }}', '/inventory');
             },
             error: function(xhr) {
