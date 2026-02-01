@@ -15,8 +15,9 @@
     </div>
     <br />
     <div class="card card-body">
-        <form action="/dashboard/item/{{$item->id}}" method="POST">
+        <form>
             @csrf
+            <input type="hidden" id="item_id" value="{{$item->id}}" />
             <div class="row">
                 <div class="col-md-6 text-center">
                     <img src="{{$item->image}}" alt="{{$item->name}}" class="img-fluid img-thumbnail"/>
@@ -70,7 +71,7 @@
                     <div class="col-md-12">
                         <div class="text-end">
                             <input type="reset" class="btn btn-secondary btn-lg" value="Réinitialiser" />
-                            <input type="submit" class="btn btn-primary btn-lg disabled" value="Soumettre" disabled />
+                            <input id="submit" type="submit" class="btn btn-primary btn-lg" value="Soumettre" />
                         </div> 
                     </div> 
                 </div>
@@ -79,4 +80,41 @@
     </form>
 </div>
 <br />
+<script type="text/javascript">
+    document.getElementById('image').addEventListener('change', function(event) {
+        const [file] = event.target.files;
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.querySelector('img').src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+    $('#submit').click(function(e) {
+        e.preventDefault();
+        var data = {
+            name: $('#name').val(),
+            price: $('#price').val(),
+            is_active: $('#isActive').is(':checked') ? 1 : 0,
+            inventory: $('#inventory').val(),
+            alert_threshold: $('#alert_threshold').val()
+        };
+        $.ajax({
+            url: '/item/update/' + $('#item_id').val(),
+            type: 'POST',
+            data: data,
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            success: function(response) {
+                alert('Article mis à jour avec succès!');
+                location.reload();
+            },
+            error: function(xhr) {
+                alert('Erreur lors de la mise à jour de l\'article. ');
+            }
+        });
+    });
+</script>
 @endsection
