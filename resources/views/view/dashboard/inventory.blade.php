@@ -4,7 +4,13 @@
 <div class="container">
     <br />
     <div class="card card-body">
-        <h1>Inventaire</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Inventaire</h1>
+            </div>
+            <div class="col-md-6 text-end">
+                <a href="/item/new/create" class="btn btn-outline-success btn-lg">Créer un nouvel article</a>
+            </div>
     </div>
     <br />
     <div class="card card-body">
@@ -13,19 +19,21 @@
                     @if(count($category->getVariations()) > 0)
                         @foreach ($category->getVariations() as $item)
                             <div class="col-md-4">
-                                <a href="/item/{{$item->id}}" class="text-start btn btn-light card {{!$item->is_active ? 'text-bg-secondary' : (is_null ($item->inventory) ? 'border-secondary' : ($item->inventory > $item->alert_threshold ? 'border-success' : ($item->inventory == 0 ? 'border-danger text-bg-danger' : 'border-warning text-bg-warning')))}}">
+                                <a href="/item/{{$item->id}}" class="text-start btn btn-light card {{!$item->is_active ? 'border-secondary' : (is_null ($item->inventory) ? 'border-success' : ($item->inventory > $item->alert_threshold ? 'border-success' : ($item->inventory == 0 ? 'border-danger text-bg-danger' : 'border-warning text-bg-warning')))}}">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-3">
-                                                <div class="img-thumbnail" style="width:75px;height:75px;max-width:75px;max-height:75px;overflow:hidden;background-size: cover;background-repeat: no-repeat;background-position: center;background-image:url({{$item->image}});"></div>
+                                                <div class="img-thumbnail" style="width:75px;height:75px;max-width:75px;max-height:75px;overflow:hidden;background-size: cover;background-repeat: no-repeat;background-position: center;background-image:url({{$item->image ? $item->image : '/images/picture_coming_soon.png'}});"></div>
                                             </div>
                                             <div class="col-6">
                                                 <span><b>{{$item->name}}</b></span>
                                                 <br />
                                                 <small>Catégorie: {{$category->fullname}}</small>
+                                                <br />
                                                 @if($item->inventory !== null)
-                                                    <p class="badge {{is_null($item->inventory) ? 'text-bg-secondary' : ($item->inventory > $item->alert_threshold ? 'text-bg-success' : 'text-bg-danger')}}">Disponible: {{$item->inventory}}</p>
+                                                    <p class="badge {{is_null($item->inventory) ? 'text-bg-secondary' : ($item->inventory > $item->alert_threshold ? 'text-bg-success' : ($item->inventory == 0 ? 'text-bg-danger' : 'text-bg-warning'))}}">Disponible: {{$item->inventory}}</p>
                                                 @endif
+                                                    <p class="badge {{!$item->is_active ? 'text-bg-danger' : 'text-bg-success'}}">{{!$item->is_active ? 'Inactif' : 'Actif'}}</p>
                                             </div>
                                             <div class="col-3">
                                                 ${{$item->price}}
@@ -37,22 +45,24 @@
                         @endforeach
                     @else
                         <div class="col-md-4">
-                            <a href="/category/{{$category->id}}" class="text-start btn btn-light card {{!$category->is_active ? 'text-bg-secondary disabled' : (is_null ($category->inventory) ? 'border-secondary' : ($category->inventory > $category->alert_threshold ? 'border-success' : ($category->inventory == 0 ? 'border-danger text-bg-danger' : 'border-warning text-bg-warning')))}} disabled" disabled>
+                            <a href="/category/{{$category->id}}" class="text-start btn btn-light card {{!$category->is_active ? 'border-secondary' : (is_null ($category->inventory) ? 'border-success' : ($category->inventory > $category->alert_threshold ? 'border-success' : ($category->inventory == 0 ? 'border-danger text-bg-danger' : 'border-warning text-bg-warning')))}}">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-3">
-                                            <div class="img-thumbnail" style="width:75px;height:75px;max-width:75px;max-height:75px;overflow:hidden;background-size: cover;background-repeat: no-repeat;background-position: center;background-image:url({{$category->image}});"></div>
+                                            <div class="img-thumbnail" style="width:75px;height:75px;max-width:75px;max-height:75px;overflow:hidden;background-size: cover;background-repeat: no-repeat;background-position: center;background-image:url({{$category->image ? $category->image : '/images/picture_coming_soon.png'}});"></div>
                                         </div>
                                         <div class="col-6">
                                             <span><b>Articles de base</b></span>
                                             <br />
                                             <small>Catégorie: {{$category->fullname}}</small>
+                                            <br />
                                             @if($category->inventory !== null)
-                                                <p class="badge {{is_null($category->inventory) ? 'text-bg-secondary' : ($category->inventory > $category->alert_threshold ? 'text-bg-success' : 'text-bg-danger')}}">Disponible: {{$category->inventory}}</p>
+                                                    <p class="badge {{is_null($category->inventory) ? 'text-bg-secondary' : ($category->inventory > $category->alert_threshold ? 'text-bg-success' : ($category->inventory == 0 ? 'text-bg-danger' : 'text-bg-warning'))}}">Disponible: {{$category->inventory}}</p>
                                             @endif
+                                            <p class="badge {{!$category->is_active ? 'text-bg-danger' : 'text-bg-success'}}">{{!$category->is_active ? 'Inactif' : 'Actif'}}</p>
                                         </div>
                                         <div class="col-3">
-                                            ${{$item->price}}
+                                            ${{$category->price}}
                                         </div>
                                     </div>
                                 </div>
