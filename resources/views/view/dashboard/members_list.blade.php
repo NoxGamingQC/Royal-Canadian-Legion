@@ -23,9 +23,9 @@
     <br class="no-print"/>
     <div id="filter" class="card card-body no-print">
         <div class="btn-group" role="group" aria-label="Filter">
-        <button id="allMembers" class="btn btn-primary" style="border:1px solid black;">Tous les membres</button>
-        <button id="activeMembers" class="btn btn-light" style="border:1px solid black;">Membres actifs</button>
-        <button id="inactiveMembers" class="btn btn-light" style="border:1px solid black;">Membres inactifs</button>
+        <button id="allMembers" class="btn btn-primary" style="border:1px solid #CCCCCC;">Tous les membres</button>
+        <button id="activeMembers" class="btn btn-light" style="border:1px solid #CCCCCC;">Membres actifs</button>
+        <button id="inactiveMembers" class="btn btn-light" style="border:1px solid #CCCCCC;">Membres inactifs</button>
         </div>
     </div>
     <br />
