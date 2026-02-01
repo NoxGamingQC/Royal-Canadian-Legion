@@ -41,10 +41,10 @@ Route::middleware('branch')->group(function () {
     Route::get('/{branch_id}/transactions/{firstDay}/{secondDay}', 'App\Http\Controllers\DashboardController@getTransactions');
     Route::get('/{branch_id}/reports/{firstDay}/{secondDay}', 'App\Http\Controllers\DashboardController@getReports');
     Route::get('/{branch_id}/inventory', 'App\Http\Controllers\DashboardController@getInventory');
-    Route::get('/{branch_id}/items', 'App\Http\Controllers\DashboardController@items');
     Route::get('/{branch_id}/members', 'App\Http\Controllers\DashboardController@memberList');
-});
-
+    });
+    
+    Route::get('/item/{item_id}', 'App\Http\Controllers\DashboardController@item');
     Route::get('/member/remove/{id}', 'App\Http\Controllers\MemberController@remove');
     Route::get('/member/edit/{id}', 'App\Http\Controllers\MemberController@edit');
     Route::post('/member/update/{id}', 'App\Http\Controllers\MemberController@update');

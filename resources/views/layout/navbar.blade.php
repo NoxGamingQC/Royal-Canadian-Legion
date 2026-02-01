@@ -38,9 +38,6 @@
                                 <a class="nav-link" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/transactions"><i class="fa fa-credit-card" aria-hidden="true"></i> Transactions</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/items"><i class="fa fa-archive" aria-hidden="true"></i> Articles</a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/inventory"><i class="fa fa-archive" aria-hidden="true"></i> Inventaire</a>
                             </li>
                     </li>
