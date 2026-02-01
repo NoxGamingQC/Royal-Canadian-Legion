@@ -57,4 +57,13 @@ class User extends Authenticatable
         $command = $this->join('branches', 'users.branch_id', '=', 'branches.id')->first(['branches.command']);
         return sprintf("%02d", $command->command);
     }
+
+    public function scopeHasPermission($query, $permission)
+    {
+        $userPermission = explode(';', $this->access);
+        if (in_array('owner', $userPermission)) {
+            return true;
+        }
+        return in_array($permission, $userPermission);
+    }
 }

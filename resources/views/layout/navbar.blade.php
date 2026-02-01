@@ -31,15 +31,19 @@
                 </li>
                 @endguest
                 @auth
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> Tableau de bord</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/transactions"><i class="fa fa-credit-card" aria-hidden="true"></i> Transactions</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/inventory"><i class="fa fa-archive" aria-hidden="true"></i> Inventaire</a>
-                            </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/dashboard"><i class="fa fa-tachometer" aria-hidden="true"></i> Tableau de bord</a>
+                        </li>
+                        @if(Auth::user()->hasPermission('transactions'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/transactions"><i class="fa fa-credit-card" aria-hidden="true"></i> Transactions</a>
+                        </li>
+                        @endif
+                        @if(Auth::user()->hasPermission('inventory'))
+                        <li class="nav-item">
+                            <a class="nav-link" href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/inventory"><i class="fa fa-archive" aria-hidden="true"></i> Inventaire</a>
+                        </li>
+                        @endif
                     </li>
                 @endauth
             </ul>

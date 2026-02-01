@@ -30,9 +30,11 @@
                                         <div class="col-md-10">
                                             <span>Membres en règles</span>
                                         </div>
+                                        @if(Auth::user()->hasPermission('see_members') || Auth::user()->hasPermission('edit_members'))
                                         <div class="col-md-2">
                                             <a href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/members"><i class="fa fa-external-link" aria-hidden="true"></i></a>
                                         </div>
+                                        @endif
                                     </div>
                                 </h6>
                             </div>
