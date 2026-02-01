@@ -15,6 +15,17 @@ use Illuminate\Http\Request;
 
 class CatalogController extends Controller
 {
+    public function category($category_id)
+    {
+        $category = Catalog::find($category_id);
+        if (!$category) {
+            return redirect()->back()->with('error', 'Category not found.');
+        }
+        return view('view.dashboard.category')->with([
+            'category' => $category,
+        ]);
+    }
+
     public function updateItem(Request $request, $item_id)
     {
         $item = Item::find($item_id);

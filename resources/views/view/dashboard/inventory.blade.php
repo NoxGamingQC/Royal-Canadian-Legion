@@ -39,7 +39,7 @@
                         @endforeach
                     @else
                         <div class="col-md-4">
-                            <a href="/category/{{$category->id}}" class="text-start btn btn-light card {{!$category->is_active ? 'text-bg-secondary disabled' : (is_null ($category->inventory) ? 'border-success' : ($category->inventory > $category->alert_threshold ? 'border-success' : ($category->inventory == 0 ? 'border-danger text-bg-danger' : 'border-warning text-bg-warning')))}} disabled" disabled>
+                            <a href="/category/{{$category->id}}" class="text-start btn btn-light card {{!$category->is_active ? 'text-bg-secondary disabled' : (is_null ($category->inventory) ? 'border-success' : ($category->inventory > $category->alert_threshold ? 'border-success' : ($category->inventory == 0 ? 'border-danger text-bg-danger' : 'border-warning text-bg-warning')))}}">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-3">

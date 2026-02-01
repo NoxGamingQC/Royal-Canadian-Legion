@@ -49,6 +49,7 @@ Route::middleware('branch')->group(function () {
     Route::get('/item/{item_id}/remove/', 'App\Http\Controllers\CatalogController@removeItem');
     //Route::get('/item/create', 'App\Http\Controllers\CatalogController@createItem');
     //Route::post('/item/store', 'App\Http\Controllers\CatalogController@storeItem');
+Route::get('/category/{category_id}', 'App\Http\Controllers\CatalogController@category');
     Route::get('/member/remove/{id}', 'App\Http\Controllers\MemberController@remove');
     Route::get('/member/edit/{id}', 'App\Http\Controllers\MemberController@edit');
     Route::post('/member/update/{id}', 'App\Http\Controllers\MemberController@update');
