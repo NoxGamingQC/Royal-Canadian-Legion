@@ -38,9 +38,21 @@ class CatalogController extends Controller
         $category->inventory = $request->inventory;
         $category->alert_threshold = $request->alert_threshold;
         $category->price = $request->price;
+        $category->image = $request->image;
         $category->save();
 
         return redirect()->back()->with('success', 'Category updated successfully.');
+    }
+
+    public function removeCategory($category_id)
+    {
+        $category = Catalog::find($category_id);
+        if (!$category) {
+            return redirect()->back()->with('error', 'Category not found.');
+        }
+        $category->delete();
+
+        return redirect('/' . Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch() . '/inventory')->with('success', 'Category removed successfully.');
     }
 
     public function updateItem(Request $request, $item_id)
