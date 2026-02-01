@@ -9,7 +9,7 @@
                 <h1>Détails de l'article</h1>
             </div>
             <div class="col-md-6 text-end">
-                <a href="/item/{{$item->id}}/remove" class="btn btn-outline-danger btn-lg disabled" disabled>Supprimer l'article</a>
+                <a href="/item/{{$item->id}}/remove" class="btn btn-outline-danger btn-lg">Supprimer l'article</a>
             </div>
         </div>
     </div>
@@ -70,7 +70,6 @@
                     </div>
                     <div class="col-md-12">
                         <div class="text-end">
-                            <input type="reset" class="btn btn-secondary btn-lg" value="Réinitialiser" />
                             <input id="submit" type="submit" class="btn btn-primary btn-lg" value="Soumettre" />
                         </div> 
                     </div> 
@@ -110,7 +109,7 @@
             },
             success: function(response) {
                 alert('Article mis à jour avec succès!');
-                location.reload();
+                location.href = '/'.concat('{{ Auth::user()->getUserCommand() }}', '-', '{{ Auth::user()->getUserBranch() }}', '/inventory');
             },
             error: function(xhr) {
                 alert('Erreur lors de la mise à jour de l\'article. ');

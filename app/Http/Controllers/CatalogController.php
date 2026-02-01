@@ -33,4 +33,15 @@ class CatalogController extends Controller
 
         return redirect()->back()->with('success', 'Item updated successfully.');
     }
+
+    public function removeItem($item_id)
+    {
+        $item = Item::find($item_id);
+        if (!$item) {
+            return redirect()->back()->with('error', 'Item not found.');
+        }
+        $item->delete();
+
+        return redirect('/' . Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch() . '/inventory')->with('success', 'Item removed successfully.');
+    }
 }

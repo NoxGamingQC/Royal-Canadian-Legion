@@ -24,7 +24,7 @@
                                                 <br />
                                                 <small>Catégorie: {{$category->fullname}}</small>
                                                 @if($item->inventory !== null)
-                                                    <p class="badge {{is_null($item->inventory) ? 'text-bg-secondary' : ($item->inventory > $item->alert_threshold ? 'text-bg-success' : 'text-bg-danger')}}">Disponible: {{$item->inventory}}</p>
+                                                    <p class="badge {{is_null($item->inventory) ? 'text-bg-secondary' : ($item->inventory > $item->alert_threshold ? 'text-bg-success' : ($item->inventory == 0 ? 'text-bg-danger' : 'text-bg-warning'))}}">Disponible: {{$item->inventory}}</p>
                                                 @endif
                                             </div>
                                             <div class="col-3">
@@ -48,7 +48,7 @@
                                             <br />
                                             <small>Catégorie: {{$category->fullname}}</small>
                                             @if($category->inventory !== null)
-                                                <p class="badge {{is_null($category->inventory) ? 'text-bg-secondary' : ($category->inventory > $category->alert_threshold ? 'text-bg-success' : 'text-bg-danger')}}">Disponible: {{$category->inventory}}</p>
+                                                    <p class="badge {{is_null($category->inventory) ? 'text-bg-secondary' : ($category->inventory > $category->alert_threshold ? 'text-bg-success' : ($category->inventory == 0 ? 'text-bg-danger' : 'text-bg-warning'))}}">Disponible: {{$category->inventory}}</p>
                                             @endif
                                         </div>
                                         <div class="col-3">

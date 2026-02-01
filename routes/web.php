@@ -46,7 +46,7 @@ Route::middleware('branch')->group(function () {
     
     Route::get('/item/{item_id}', 'App\Http\Controllers\DashboardController@item');
     Route::post('/item/update/{item_id}', 'App\Http\Controllers\CatalogController@updateItem');
-    Route::get('/item/remove/{item_id}', 'App\Http\Controllers\CatalogController@removeItem');
+    Route::get('/item/{item_id}/remove/', 'App\Http\Controllers\CatalogController@removeItem');
     //Route::get('/item/create', 'App\Http\Controllers\CatalogController@createItem');
     //Route::post('/item/store', 'App\Http\Controllers\CatalogController@storeItem');
     Route::get('/member/remove/{id}', 'App\Http\Controllers\MemberController@remove');
