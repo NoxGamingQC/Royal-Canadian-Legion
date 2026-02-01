@@ -34,13 +34,14 @@ Route::middleware('branch')->group(function () {
     Route::post('/{branch_id}/pos/pay', 'App\Http\Controllers\POSController@save');
     Route::post('/{branch_id}/pos/invoice/edit', 'App\Http\Controllers\POSController@saveInvoice');
     Route::post('/{branch_id}/pos/inventory', 'App\Http\Controllers\POSController@sellInventory');
-
+    
     //Dashboard
     Route::get('/{branch_id}/dashboard', 'App\Http\Controllers\DashboardController@index');
     Route::get('/{branch_id}/transactions', 'App\Http\Controllers\DashboardController@transactions');
     Route::get('/{branch_id}/transactions/{firstDay}/{secondDay}', 'App\Http\Controllers\DashboardController@getTransactions');
     Route::get('/{branch_id}/reports/{firstDay}/{secondDay}', 'App\Http\Controllers\DashboardController@getReports');
     Route::get('/{branch_id}/inventory', 'App\Http\Controllers\DashboardController@getInventory');
+    Route::get('/{branch_id}/inventory/print', 'App\Http\Controllers\CatalogController@printableInventory');
     Route::get('/{branch_id}/members', 'App\Http\Controllers\DashboardController@memberList');
     });
     

@@ -9,6 +9,7 @@
                 <h1>Inventaire</h1>
             </div>
             <div class="col-md-6 text-end">
+                <a href="/{{Auth::user()->getUserCommand() . '-' . Auth::user()->getUserBranch()}}/inventory/print" class="btn btn-outline-primary btn-lg">Liste de commandes imprimable</a>
                 <a href="/item/new/create" class="btn btn-outline-success btn-lg">Créer un nouvel article</a>
             </div>
     </div>
