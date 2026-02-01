@@ -16,7 +16,7 @@
             @csrf
             <div class="row">
                 <div class="col-md-6 text-center">
-                    <img id="image_preview" src="" alt="" class="img-fluid img-thumbnail"/>
+                    <img id="image_preview" src="/images/picture_coming_soon.png" alt="" class="img-fluid img-thumbnail"/>
                     <input type="file" id="image" name="image" class="form-control form-control-lg mt-2" accept="image/*" />
                 </div>
                 <div class="col-md-6">

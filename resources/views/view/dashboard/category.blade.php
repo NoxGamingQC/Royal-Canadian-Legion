@@ -20,7 +20,7 @@
             <input type="hidden" id="category_id" value="{{$category->id}}" />
             <div class="row">
                 <div class="col-md-6 text-center">
-                    <img id="image_preview" src="{{$category->image}}" alt="{{$category->name}}" class="img-fluid img-thumbnail"/>
+                    <img id="image_preview" src="{{$category->image ? $category->image : '/images/picture_coming_soon.png'}}" alt="{{$category->name}}" class="img-fluid img-thumbnail"/>
                     <input type="file" id="image" name="image" class="form-control form-control-lg mt-2" accept="image/*" />
                 </div>
                 <div class="col-md-6">

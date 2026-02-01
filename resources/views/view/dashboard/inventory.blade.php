@@ -23,7 +23,7 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-3">
-                                                <div class="img-thumbnail" style="width:75px;height:75px;max-width:75px;max-height:75px;overflow:hidden;background-size: cover;background-repeat: no-repeat;background-position: center;background-image:url({{$item->image}});"></div>
+                                                <div class="img-thumbnail" style="width:75px;height:75px;max-width:75px;max-height:75px;overflow:hidden;background-size: cover;background-repeat: no-repeat;background-position: center;background-image:url({{$item->image ? $item->image : '/images/picture_coming_soon.png'}});"></div>
                                             </div>
                                             <div class="col-6">
                                                 <span><b>{{$item->name}}</b></span>
@@ -49,7 +49,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-3">
-                                            <div class="img-thumbnail" style="width:75px;height:75px;max-width:75px;max-height:75px;overflow:hidden;background-size: cover;background-repeat: no-repeat;background-position: center;background-image:url({{$category->image}});"></div>
+                                            <div class="img-thumbnail" style="width:75px;height:75px;max-width:75px;max-height:75px;overflow:hidden;background-size: cover;background-repeat: no-repeat;background-position: center;background-image:url({{$category->image ? $category->image : '/images/picture_coming_soon.png'}});"></div>
                                         </div>
                                         <div class="col-6">
                                             <span><b>Articles de base</b></span>
