@@ -23,9 +23,9 @@
     <br class="no-print"/>
     <div id="filter" class="card card-body no-print">
         <div class="btn-group" role="group" aria-label="Filter">
-        <button id="allMembers" class="btn btn-info" style="margin:5px;">Tous les membres</button>
-        <button id="activeMembers" class="btn btn-success" style="margin:5px;">Membres actifs</button>
-        <button id="inactiveMembers" class="btn btn-danger" style="margin:5px;">Membres inactifs</button>
+        <button id="allMembers" class="btn btn-primary" style="border:1px solid black;">Tous les membres</button>
+        <button id="activeMembers" class="btn btn-light" style="border:1px solid black;">Membres actifs</button>
+        <button id="inactiveMembers" class="btn btn-light" style="border:1px solid black;">Membres inactifs</button>
         </div>
     </div>
     <br />
@@ -64,6 +64,9 @@
 <script type="text/javascript">
     document.getElementById('allMembers').addEventListener('click', function() {
         var rows = document.querySelectorAll('tbody tr');
+        $('#activeMembers').removeClass('btn-primary').addClass('btn-light');
+        $('#allMembers').removeClass('btn-light').addClass('btn-primary');
+        $('#inactiveMembers').removeClass('btn-primary').addClass('btn-light');
         rows.forEach(function(row) {
             row.style.display = '';
             document.getElementById('allMembersTitle').hidden = false;
@@ -74,6 +77,9 @@
 
     document.getElementById('activeMembers').addEventListener('click', function() {
         var rows = document.querySelectorAll('tbody tr');
+        $('#activeMembers').removeClass('btn-light').addClass('btn-primary');
+        $('#allMembers').removeClass('btn-primary').addClass('btn-light');
+        $('#inactiveMembers').removeClass('btn-primary').addClass('btn-light');
         rows.forEach(function(row) {
             if (row.classList.contains('active-member')) {
                 row.style.display = '';
@@ -88,6 +94,9 @@
 
     document.getElementById('inactiveMembers').addEventListener('click', function() {
         var rows = document.querySelectorAll('tbody tr');
+        $('#activeMembers').removeClass('btn-primary').addClass('btn-light');
+        $('#allMembers').removeClass('btn-primary').addClass('btn-light');
+        $('#inactiveMembers').removeClass('btn-light').addClass('btn-primary');
         rows.forEach(function(row) {
             if (row.classList.contains('inactive-member')) {
                 row.style.display = '';
