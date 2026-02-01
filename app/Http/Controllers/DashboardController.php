@@ -208,11 +208,11 @@ class DashboardController extends Controller
         ]);
     }
 
-    public function items() {
-        $catalog = Catalog::all();
-
-        return view('view.dashboard.items')->with([
-            'catalog' => $catalog->sortBy('id')
+    public function item($item_id) {
+        $item = Item::where('id', $item_id)->first();
+        return view('view.dashboard.item')->with([
+            'active_tab' => 'inventory',
+            'item' => $item
         ]);
     }
     public function memberList() {
