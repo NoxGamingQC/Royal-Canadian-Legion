@@ -92,7 +92,7 @@ class POSController extends Controller
                     'kitshopItems' => $kitshopItems,
                     'catalogImages' => isset($catalogImages) ? $catalogImages->getObjects() : [],
                     'invoices' => isset($invoices) ? $invoices : [],
-                    'cashierName' => isset($cashier->lastname) ? ($cashier->firstname . ' ' . $cashier->lastname[0] . '.') : $cashier->firstname
+                    'cashierName' => isset($cashier->lastname) ? ($cashier->firstname . ' ' . $cashier->lastname) : $cashier->firstname
                 ]);
             }
         return redirect('/pos/');
