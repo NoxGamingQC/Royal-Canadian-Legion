@@ -14,6 +14,9 @@ class OauthToken extends Model
 
     public function scopeValidate($query, $request) {
         if($request->query()) {
+            if(!array_key_exists('token', $request->query())) {
+                abort(404);
+            }
             $token = $request->query()['token'];
             $entry = $query->where('token', $token)->first();
             return $entry ? true : abort(404);
