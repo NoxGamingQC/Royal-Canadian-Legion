@@ -11,7 +11,7 @@ use Carbon\Carbon;
 use App\Models\Invoice;
 use App\Models\Customer;
 use App\Models\InvoiceItems;
-use App\Models\Pin;
+use App\Models\User;
 use App\Models\Catalog;
 use App\Models\Item;
 use App\Models\Transaction;
@@ -36,19 +36,19 @@ class POSController extends Controller
 
     public function validateCashier(Request $request,$branch, $pin, $option) {
         OauthToken::validate($request);
-        $cashier = Pin::where('pin', '=', $pin)->first();
+        $cashier = User::where('pin', '=', $pin)->first();
         if(!isset($cashier)) {
-            $cashier = Pin::where('pin', '=', $pin)->where('pin', '=', 'all')->first();
+            $cashier = User::where('pin', '=', $pin)->where('pin', '=', 'all')->first();
         }
         if($cashier) {
-            $hasMenuAccess = in_array('menu', explode(';', $cashier->access)) || $cashier->access == 'all' ? true : false;
+            $hasMenuAccess = in_array('bar_menu', explode(';', $cashier->access)) || $cashier->access == 'bar_all' ? true : false;
             $hasKitshopAccess = in_array('kitshop', explode(';', $cashier->access)) || $cashier->access == 'all' ? true : false;
             if($option == 'menu') {
                 if(in_array('menu', $request->options) || in_array('kitshop', $request->options) || $cashier->access == 'all') {
                     return response()->json([
                         'id' => $cashier->id,
                         'name' => isset($cashier->lastname) ? ($cashier->firstname . ' ' . $cashier->lastname[0] . '.') : $cashier->firstname,
-                        'hasAllAccess' => $cashier->access == 'all',
+                        'hasAllAccess' => $cashier->access == 'bar_all',
                         'hasMenuAccess' =>  $hasMenuAccess,
                         'hasKitshopAccess' => $hasKitshopAccess,
                     ]);
@@ -68,13 +68,13 @@ class POSController extends Controller
     {
             OauthToken::validate($request);
         
-            $cashier = Pin::find($cashierID);   
+            $cashier = User::find($cashierID);   
             $category = Catalog::all();
             $invoices = Invoice::where('status','=', 'unpaid')->get();
             $customers = Customer::all()->sortBy('firstname');
             $kitshopItems = KitshopItem::all()->sortBy('name');
             $transactions = Transaction::where('payment_type', null)->get();
-            $hasMenuAccess = in_array('menu', explode(';', $cashier->access)) || $cashier->access == 'all' ? true : false;
+            $hasMenuAccess = in_array('bar_menu', explode(';', $cashier->access)) || $cashier->access == 'all' ? true : false;
             $hasKitshopAccess = in_array('kitshop', explode(';', $cashier->access)) || $cashier->access == 'all' ? true : false;
             if($cashier) {
                 return view('view.pos.menu')->with([
@@ -117,7 +117,7 @@ class POSController extends Controller
     public function save(Request $request) {
         OauthToken::validate($request);
         
-        $cashier = Pin::find($request->cashier_id);
+        $cashier = User::find($request->cashier_id);
         if($cashier) {
              if(is_null($request->invoice_id)) {
                 $invoice = new Invoice;

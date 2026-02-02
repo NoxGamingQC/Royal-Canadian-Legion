@@ -37,7 +37,6 @@
                                 <br /><br /><br />
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf
-
                                     <div class="row mb-8 text-center">
                                         <label for="email" class="col-md-4 col-form-label text-md-end text-right">Courriel</label>
 
