@@ -41,8 +41,8 @@ class POSController extends Controller
             $cashier = User::where('pin', '=', $pin)->where('pin', '=', 'all')->first();
         }
         if($cashier) {
-            $hasAllAccess = in_array('all', explode(';', $cashier->access)) || $cashier->access == 'owner' ? true : false;
-            $hasMenuAccess = in_array('bar_menu', explode(';', $cashier->access)) || $cashier->access == 'bar_all' ? true : false;
+            $hasAllAccess = in_array('all', explode(';', $cashier->access)) || in_array('owner', explode(';', $cashier->access)) ? true : false;
+            $hasMenuAccess = in_array('bar_menu', explode(';', $cashier->access)) || in_array('bar_all', explode(';', $cashier->access)) ? true : false;
             $hasKitshopAccess = in_array('kitshop', explode(';', $cashier->access)) ? true : false;
             if($option == 'menu') {
                 if(in_array('menu', $request->options) || in_array('kitshop', $request->options) || $cashier->access == 'all') {
@@ -75,8 +75,8 @@ class POSController extends Controller
             $customers = Customer::all()->sortBy('firstname');
             $kitshopItems = KitshopItem::all()->sortBy('name');
             $transactions = Transaction::where('payment_type', null)->get();
-            $hasAllAccess = in_array('all', explode(';', $cashier->access)) || $cashier->access == 'owner' ? true : false;
-            $hasMenuAccess = in_array('bar_menu', explode(';', $cashier->access)) || $cashier->access == 'bar_all' ? true : false;
+            $hasAllAccess = in_array('all', explode(';', $cashier->access)) || in_array('owner', explode(';', $cashier->access)) ? true : false;
+            $hasMenuAccess = in_array('bar_menu', explode(';', $cashier->access)) || in_array('bar_all', explode(';', $cashier->access)) ? true : false;
             $hasKitshopAccess = in_array('kitshop', explode(';', $cashier->access));
             if($cashier) {
                 return view('view.pos.menu')->with([
