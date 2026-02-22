@@ -41,14 +41,15 @@ class POSController extends Controller
             $cashier = User::where('pin', '=', $pin)->where('pin', '=', 'all')->first();
         }
         if($cashier) {
+            $hasAllAccess = in_array('all', explode(';', $cashier->access)) || $cashier->access == 'owner' ? true : false;
             $hasMenuAccess = in_array('bar_menu', explode(';', $cashier->access)) || $cashier->access == 'bar_all' ? true : false;
-            $hasKitshopAccess = in_array('kitshop', explode(';', $cashier->access)) || $cashier->access == 'all' ? true : false;
+            $hasKitshopAccess = in_array('kitshop', explode(';', $cashier->access)) ? true : false;
             if($option == 'menu') {
                 if(in_array('menu', $request->options) || in_array('kitshop', $request->options) || $cashier->access == 'all') {
                     return response()->json([
                         'id' => $cashier->id,
                         'name' => isset($cashier->lastname) ? ($cashier->firstname . ' ' . $cashier->lastname[0] . '.') : $cashier->firstname,
-                        'hasAllAccess' => $cashier->access == 'bar_all',
+                        'hasAllAccess' => $hasAllAccess,
                         'hasMenuAccess' =>  $hasMenuAccess,
                         'hasKitshopAccess' => $hasKitshopAccess,
                     ]);
@@ -74,8 +75,9 @@ class POSController extends Controller
             $customers = Customer::all()->sortBy('firstname');
             $kitshopItems = KitshopItem::all()->sortBy('name');
             $transactions = Transaction::where('payment_type', null)->get();
-            $hasMenuAccess = in_array('bar_menu', explode(';', $cashier->access)) || $cashier->access == 'all' ? true : false;
-            $hasKitshopAccess = in_array('kitshop', explode(';', $cashier->access)) || $cashier->access == 'all' ? true : false;
+            $hasAllAccess = in_array('all', explode(';', $cashier->access)) || $cashier->access == 'owner' ? true : false;
+            $hasMenuAccess = in_array('bar_menu', explode(';', $cashier->access)) || $cashier->access == 'bar_all' ? true : false;
+            $hasKitshopAccess = in_array('kitshop', explode(';', $cashier->access));
             if($cashier) {
                 return view('view.pos.menu')->with([
                     'token' => $request->query()['token'],
@@ -86,7 +88,7 @@ class POSController extends Controller
                     'catalog' => $category->sortBy('id'),
                     'customers' => $customers,
                     'transactions' => $transactions,
-                    'hasAllAccess' => $cashier->access == 'all',
+                    'hasAllAccess' => $hasAllAccess,
                     'hasMenuAccess' =>  $hasMenuAccess,
                     'hasKitshopAccess' => $hasKitshopAccess,
                     'kitshopItems' => $kitshopItems,
