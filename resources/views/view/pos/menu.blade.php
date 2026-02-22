@@ -23,7 +23,19 @@
     <div class="col-12 text-center" style="min-height:49vh;max-height:49vh;overflow:hidden;margin:0px;padding:0px;">
         <div class="row">
             <div class="col-12" style="background-color:#E51937;height:3vh;color:#FFF;border: 1px solid black">
-                {{$cashierName . ' - ' . $name . ' - ' . $phone_number}}
+                <div class="container">
+                    <div class="row">
+                        <div class="col-3 text-start">
+                            {{ $cashierName }}
+                        </div>
+                        <div class="col-6 text-center">
+                            {{$branch->name}} - {{$branch->phone}}
+                        </div>
+                        <div id="date-time" class="col-3 text-end">
+                            {{date('Y-m-d H:i:s')}}
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="col-7" style="min-height:49vh;overflow:hidden;margin:0px;padding:0px">
                 <div class="row">
@@ -260,6 +272,17 @@
 </div>
 <script>
 $(document).ready(function() {
+    setInterval(function() {
+        var currentDate = new Date();
+        var formattedDate = currentDate.getFullYear() + '-' +
+            String(currentDate.getMonth() + 1).padStart(2, '0') + '-' +
+            String(currentDate.getDate()).padStart(2, '0') + ' ' +
+            String(currentDate.getHours()).padStart(2, '0') + ':' +
+            String(currentDate.getMinutes()).padStart(2, '0') + ':' +
+            String(currentDate.getSeconds()).padStart(2, '0');
+        $('#date-time').text(formattedDate);
+    }, 1000);
+
     $('.items').on('click', function(){
         $('#givenAmount').html('');
         $('#givenAmount').attr('value', '');
