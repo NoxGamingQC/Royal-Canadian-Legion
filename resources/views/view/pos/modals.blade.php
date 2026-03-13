@@ -16,24 +16,25 @@
 
 {{-- NUMPAD MODAL --}}
 <div class="modal fade" id="keypadModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content bg-dark text-white p-3">
-      <input type="text" id="inputAmount" class="form-control mb-2 text-end" placeholder="0.00">
+      <input type="text" id="inputAmount" class="form-control form-control-lg mb-2 text-center" placeholder="0">
+      <br />
       <div class="d-grid gap-2" style="grid-template-columns: repeat(3, 1fr);">
-        <button class="key-btn btn btn-secondary">1</button>
-        <button class="key-btn btn btn-secondary">2</button>
-        <button class="key-btn btn btn-secondary">3</button>
-        <button class="key-btn btn btn-secondary">4</button>
-        <button class="key-btn btn btn-secondary">5</button>
-        <button class="key-btn btn btn-secondary">6</button>
-        <button class="key-btn btn btn-secondary">7</button>
-        <button class="key-btn btn btn-secondary">8</button>
-        <button class="key-btn btn btn-secondary">9</button>
-        <button class="key-btn btn btn-secondary">0</button>
-        <button class="key-btn btn btn-secondary">.</button>
+        <button class="key-btn btn-lg py-3 btn btn-secondary">1</button>
+        <button class="key-btn btn-lg py-3 btn btn-secondary">2</button>
+        <button class="key-btn btn-lg py-3 btn btn-secondary">3</button>
+        <button class="key-btn btn-lg py-3 btn btn-secondary">4</button>
+        <button class="key-btn btn-lg py-3 btn btn-secondary">5</button>
+        <button class="key-btn btn-lg py-3 btn btn-secondary">6</button>
+        <button class="key-btn btn-lg py-3 btn btn-secondary">7</button>
+        <button class="key-btn btn-lg py-3 btn btn-secondary">8</button>
+        <button class="key-btn btn-lg py-3 btn btn-secondary">9</button>
+        <button class="key-btn btn-lg py-3 btn btn-secondary">0</button>
+        <button class="key-btn btn-lg py-3 btn btn-secondary">.</button>
         <button id="keypad-clear" class="btn btn-danger">C</button>
       </div>
-      <button id="keypad-confirm" class="btn btn-success w-100 mt-2">CONFIRMER</button>
+      <button id="keypad-confirm" class="btn btn-success btn-lg w-100 mt-2 py-3">CONFIRMER</button>
     </div>
   </div>
 </div>

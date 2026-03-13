@@ -289,6 +289,7 @@ $('#keypad-confirm').click(()=>{
             $('.order-item').remove();
             updateTotal();
             $('#keypadModal').modal('hide');
+            $('#memberModal').modal('show');
         },
         error:function(err){ console.log(err); }
     });
