@@ -37,20 +37,28 @@ $branch = Branches::where('command', $branchCommand)
     <div class="row m-0" style="height:10%;background:#1a1a1a;">
         <div class="d-flex overflow-auto px-1 py-1">
             @foreach($catalog as $category)
-                <button class="category-btn flex-shrink-0 m-1 px-5 py-2"
-                        category-id="category-{{ $category->id }}"
-                        style="
-                            background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url({{ $category->image }});
-                            background-size:cover;
-                            background-position:center;
-                            min-width:100px;
-                            color:#fff;
-                            font-weight:bold;
-                            border-radius:5px;
-                            border:none;
-                            text-shadow:1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
-                    {{ $category->name }}
-                </button>
+                @if(isset($category->is_active) && $category->is_active === true)
+                    <button class="category-btn flex-shrink-0 m-1 px-5 py-2"
+                            category-id="category-{{ $category->id }}"
+                            style="
+                                @if(!is_null($category->inventory) && $category->inventory == 0)
+                                    background-image:linear-gradient(rgba(255,0,0,0.8),rgba(255,0,0,0.8)),url({{ $category->image }});
+                                @elseif(!is_null($category->inventory) && $category->inventory <= $category->alert_threshold)
+                                    background-image:linear-gradient(rgba(255,255,0,0.8),rgba(255,255,0,0.8)),url({{ $category->image }});
+                                @else
+                                    background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url({{ $category->image }});
+                                @endif                                
+                                background-size:cover;
+                                background-position:center;
+                                min-width:100px;
+                                color:#fff;
+                                font-weight:bold;
+                                border-radius:5px;
+                                border:none;
+                                text-shadow:1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
+                        {{ $category->name }}
+                    </button>
+                @endif
             @endforeach
         </div>
     </div>
@@ -70,38 +78,41 @@ $branch = Branches::where('command', $branchCommand)
                                 'price' => $category->price,
                                 'image' => $category->image,
                                 'inventory' => $category->inventory,
-                                'alert_threshold' => $category->alert_threshold
+                                'alert_threshold' => $category->alert_threshold,
+                                'is_active' => $category->is_active,
                             ]];
                         }
                     @endphp
 
                     @foreach($variations as $item)
-                        <div class="col item-card category-{{ $category->id }}"
-                             style="display: {{ $loop->parent->first ? 'block':'none' }};cursor:pointer;">
-                            <div class="card text-white bg-dark h-100"
-                                 style="
-                                    @if(!is_null($item->inventory) && $item->inventory == 0)
-                                        background-image:linear-gradient(rgba(255,0,0,0.8),rgba(255,0,0,0.8)),url({{ $item->image }});
-                                    @elseif(!is_null($item->inventory) && $item->inventory <= $item->alert_threshold)
-                                        background-image:linear-gradient(rgba(255,255,0,0.8),rgba(255,255,0,0.8)),url({{ $item->image }});
-                                    @else
-                                        background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url({{ $item->image }});
-                                    @endif
-                                    background-size:cover;
-                                    background-position:center;
-                                    border-radius:5px;
-                                    border:none;">
-                                <div class="card-body p-2 text-center"
-                                     style="display:flex;flex-direction:column;justify-content:center;border:1px solid #444;border-radius:5px;">
-                                    <h6 style="text-shadow:1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
-                                        {{ $item->name }}
-                                    </h6>
-                                    <p style="text-shadow:1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
-                                        {{ number_format($item->price, 2) }} $
-                                    </p>
+                        @if(isset($item->is_active) && $item->is_active === true)
+                            <div class="col item-card category-{{ $category->id }}"
+                                style="display: {{ $loop->parent->first ? 'block':'none' }};cursor:pointer;">
+                                <div class="card text-white bg-dark h-100"
+                                    style="
+                                        @if(!is_null($item->inventory) && $item->inventory == 0)
+                                            background-image:linear-gradient(rgba(255,0,0,0.8),rgba(255,0,0,0.8)),url({{ $item->image }});
+                                        @elseif(!is_null($item->inventory) && $item->inventory <= $item->alert_threshold)
+                                            background-image:linear-gradient(rgba(255,255,0,0.8),rgba(255,255,0,0.8)),url({{ $item->image }});
+                                        @else
+                                            background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url({{ $item->image }});
+                                        @endif
+                                        background-size:cover;
+                                        background-position:center;
+                                        border-radius:5px;
+                                        border:none;">
+                                    <div class="card-body p-2 text-center"
+                                        style="display:flex;flex-direction:column;justify-content:center;border:1px solid #444;border-radius:5px;">
+                                        <h6 style="text-shadow:1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
+                                            {{ $item->name }}
+                                        </h6>
+                                        <p style="text-shadow:1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
+                                            {{ number_format($item->price, 2) }} $
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     @endforeach
                 @endforeach
             </div>
