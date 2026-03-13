@@ -45,4 +45,8 @@ $('.key-btn').click(function(){
     input.val(input.val() + val);
 });
 $('#keypad-clear').click(()=>$('#inputAmount').val(''));
+
+$('#keypadModal').on('hidden.bs.modal', function () {
+    $('#inputAmount').val(''); // réinitialise le montant
+});
 </script>
