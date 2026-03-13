@@ -19,14 +19,12 @@ $branch = Branches::where('command', $branchCommand)
         <div class="col-2 d-flex align-items-center">
             <h5 class="m-0">{{ $cashierName }}</h5>
         </div>
-
         <div class="col-8 d-flex justify-content-center align-items-center">
             <h5 class="m-0">{{ $branch->name }} - {{ $branch->phone }}</h5>
         </div>
-
         <div class="col-2 d-flex align-items-center">
             <a class="btn btn-danger w-100 h-100 d-flex align-items-center justify-content-center"
-               href="/{{ $fullBranchID }}/pos?token={{ $token }}"
+               href="/{{ $fullBranchID }}/pos?token={{$token}}"
                style="border-radius:0;border:none;">
                 Déconnexion
             </a>
@@ -41,13 +39,7 @@ $branch = Branches::where('command', $branchCommand)
                     <button class="category-btn flex-shrink-0 m-1 px-5 py-2"
                             category-id="category-{{ $category->id }}"
                             style="
-                                @if(!is_null($category->inventory) && $category->inventory == 0)
-                                    background-image:linear-gradient(rgba(255,0,0,0.8),rgba(255,0,0,0.8)),url({{ $category->image }});
-                                @elseif(!is_null($category->inventory) && $category->inventory <= $category->alert_threshold)
-                                    background-image:linear-gradient(rgba(255,255,0,0.8),rgba(255,255,0,0.8)),url({{ $category->image }});
-                                @else
-                                    background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url({{ $category->image }});
-                                @endif                                
+                                background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url({{ $category->image }});
                                 background-size:cover;
                                 background-position:center;
                                 min-width:100px;
@@ -65,7 +57,6 @@ $branch = Branches::where('command', $branchCommand)
 
     {{-- MAIN --}}
     <div class="row m-0" style="height:72%;">
-
         {{-- ITEMS --}}
         <div class="col-9 p-2" style="background:#222;overflow-y:auto;border:1px solid #444;">
             <div class="row row-cols-4 g-2" id="items-container">
@@ -74,40 +65,24 @@ $branch = Branches::where('command', $branchCommand)
                         $variations = $category->getVariations();
                         if(count($variations) === 0){
                             $variations = [(object)[
-                                'name' => $category->name,
-                                'price' => $category->price,
-                                'image' => $category->image,
-                                'inventory' => $category->inventory,
-                                'alert_threshold' => $category->alert_threshold,
-                                'is_active' => $category->is_active,
+                                'name'=>$category->name,
+                                'price'=>$category->price,
+                                'image'=>$category->image,
+                                'is_active'=>$category->is_active
                             ]];
                         }
                     @endphp
-
                     @foreach($variations as $item)
                         @if(isset($item->is_active) && $item->is_active === true)
-                            <div class="col item-card category-{{ $category->id }}"
-                                style="display: {{ $loop->parent->first ? 'block':'none' }};cursor:pointer;">
+                            <div class="col item-card category-{{ $category->id }}" style="display: {{ $loop->parent->first ? 'block':'none' }};cursor:pointer;">
                                 <div class="card text-white bg-dark h-100"
-                                    style="
-                                        @if(!is_null($item->inventory) && $item->inventory == 0)
-                                            background-image:linear-gradient(rgba(255,0,0,0.8),rgba(255,0,0,0.8)),url({{ $item->image }});
-                                        @elseif(!is_null($item->inventory) && $item->inventory <= $item->alert_threshold)
-                                            background-image:linear-gradient(rgba(255,255,0,0.8),rgba(255,255,0,0.8)),url({{ $item->image }});
-                                        @else
-                                            background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url({{ $item->image }});
-                                        @endif
-                                        background-size:cover;
-                                        background-position:center;
-                                        border-radius:5px;
-                                        border:none;">
-                                    <div class="card-body p-2 text-center"
-                                        style="display:flex;flex-direction:column;justify-content:center;border:1px solid #444;border-radius:5px;">
+                                    style="background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url({{ $item->image }});background-size:cover;background-position:center;border-radius:5px;border:none;">
+                                    <div class="card-body p-2 text-center" style="display:flex;flex-direction:column;justify-content:center;border:1px solid #444;border-radius:5px;">
                                         <h6 style="text-shadow:1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
                                             {{ $item->name }}
                                         </h6>
                                         <p style="text-shadow:1px 1px 0 #000,-1px 1px 0 #000,1px -1px 0 #000,-1px -1px 0 #000;">
-                                            {{ number_format($item->price, 2) }} $
+                                            {{ number_format($item->price,2) }} $
                                         </p>
                                     </div>
                                 </div>
@@ -119,780 +94,189 @@ $branch = Branches::where('command', $branchCommand)
         </div>
 
         {{-- ORDER --}}
-        <div class="col-3 p-2 d-flex flex-column"
-             style="background:#151515;color:#fff;border:1px solid #444;border-left:none;height:100%;">
+        <div class="col-3 p-2 d-flex flex-column" style="background:#151515;color:#fff;border:1px solid #444;border-left:none;height:100%;">
             <div id="order-items" style="flex:1 1 auto;overflow-y:auto;margin-bottom:10px;">
                 <h5 style="color:#FF9800">COMMANDE:</h5>
                 <hr>
             </div>
-
-            <div id="order-summary"
-                 style="flex:0 0 auto;border-top:1px solid #555;padding-top:10px;">
+            <div id="order-summary" style="flex:0 0 auto;border-top:1px solid #555;padding-top:10px;">
                 <div><strong style="color:#FF9800">Total:</strong> <span id="order-total">0.00</span> $</div>
-                <div><strong style="color:#FF9800">Montant reçu:</strong> <span id="amount-received">0.00</span> $</div>
-                <div><strong style="color:#FF9800">Change:</strong> <span id="change">0.00</span> $</div>
             </div>
         </div>
-
     </div>
 
     {{-- PAYMENT --}}
     <div class="row m-0" style="height:10%;border:1px solid #444;border-top:none;">
         <div class="col-3 p-1">
-            <button class="w-100 h-100" style="background:#4CAF50;color:#fff;border:none;">
-                CASH
-            </button>
+            <button id="cash-btn" class="w-100 h-100" style="background:#4CAF50;color:#fff;border:none;">ARGENT COMPTANT</button>
         </div>
         <div class="col-3 p-1">
-        {{--#2196F3--}}
-            <button class="w-100 h-100" style="background:#213653;color:#888;border:none;" disabled>
-                DÉBIT
-            </button>
+            <button class="w-100 h-100" style="background:#213653;color:#888;border:none;" disabled>DÉBIT</button>
         </div>
         <div class="col-3 p-1">
-            <button class="w-100 h-100" style="background:#9C27B0;color:#fff;border:none;">
-                PROMOTION
-            </button>
+            <button id="clear-order" class="w-100 h-100" style="background:#FF9800;color:#fff;border:none;">EFFACER LA COMMANDE</button>
         </div>
         <div class="col-3 p-1">
-            <button id="cancel-order" class="w-100 h-100" style="background:#E51937;color:#fff;border:none;">
-                ANNULER
-            </button>
+            <button id="cancel-order" class="w-100 h-100" style="background:#E51937;color:#fff;border:none;">ANNULER LA TRANSACTION</button>
         </div>
     </div>
 
     {{-- FOOTER --}}
     <div class="row m-0" style="height:3%;background:#202020;border:1px solid #444;border-top:none;">
-        <h6 class="text-center text-white">
-            Créé et maintenu par Cde Jimmy Béland-Bédard - 819-852-8705
-        </h6>
+        <h6 class="text-center text-white">Créé et maintenu par Cde Jimmy Béland-Bédard - 819-852-8705</h6>
     </div>
 
+    {{-- MODALS --}}
+    @include('view.pos.modals') {{-- contient memberModal + keypadModal --}}
 </div>
 
 <script>
-    const buttons = document.querySelectorAll('.category-btn');
+let orderList = document.getElementById('order-items');
+let totalElem = document.getElementById('order-total');
+let isMember = null;
+let memberFee = 0.50;
 
-    buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const id = btn.getAttribute('category-id');
-
-            document.querySelectorAll('.item-card').forEach(i => i.style.display = 'none');
-            document.querySelectorAll('.' + id).forEach(i => i.style.display = 'block');
-        });
-    });
-
-    const orderList = document.getElementById('order-items');
-    const totalElem = document.getElementById('order-total');
-
-    document.getElementById('items-container').addEventListener('click', function(e) {
-        let card = e.target.closest('.item-card');
-        if (!card) return;
-
-        const name = card.querySelector('h6').textContent;
-        const price = parseFloat(card.querySelector('p').textContent.replace(' $',''));
-
-        let existing = [...orderList.querySelectorAll('.order-item')]
-            .find(i => i.dataset.name === name);
-
-        if (existing) {
-            let qty = existing.querySelector('.qty');
-            qty.textContent = parseInt(qty.textContent) + 1;
-
-            existing.style.background = "#2e7d32";
-            setTimeout(() => { existing.style.background = "#333"; }, 150);
-        } else {
-            const div = document.createElement('div');
-
-            div.classList.add('order-item');
-            div.dataset.name = name;
-            div.dataset.price = price;
-
-            div.style.padding = '10px 5px';
-            div.style.borderBottom = '1px solid #555';
-            div.style.cursor = 'pointer';
-            div.style.transition = 'background 0.2s';
-            div.style.borderRadius = '2px';
-
-            div.innerHTML = `
-                <h6 style="width:100%;display:flex;justify-content:space-between;margin:0;">
-                    <span><span class="qty">1</span> x ${name}</span>
-                    <span>${price.toFixed(2)} $</span>
-                </h6>
-            `;
-
-            div.addEventListener('click', () => {
-                div.style.background = "#c62828";
-
-                setTimeout(() => {
-                    let qtyElem = div.querySelector('.qty');
-                    let qty = parseInt(qtyElem.textContent) - 1;
-
-                    if (qty <= 0) {
-                        div.remove();
-                    } else {
-                        qtyElem.textContent = qty;
-                        div.style.background = "#333";
-                    }
-
-                    updateTotal();
-                }, 120);
-            });
-
-            orderList.appendChild(div);
-            div.style.background = "#2e7d32";
-            setTimeout(() => { div.style.background = "#333"; }, 150);
-        }
-
-        updateTotal();
-    });
-
-    function updateTotal() {
-        let total = 0;
-        orderList.querySelectorAll('.order-item').forEach(item => {
-            let qty = parseInt(item.querySelector('.qty').textContent);
-            let price = parseFloat(item.dataset.price);
-            total += qty * price;
-        });
-        totalElem.textContent = total.toFixed(2);
-    }
-
-    document.getElementById("cancel-order").addEventListener("click", () => {
-        document.querySelectorAll(".order-item").forEach(item => item.remove());
-        updateTotal();
-    });
-</script>
-
-@endsection
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@extends('layout.pos')
-
-@section('content')
-
-
-<div style="position:absolute;margin:20vh;margin-left:30vh;z-index:99">
-    <h1 id="amount" class="text-success" value="0"></h1>
-</div>
-<div style="position:absolute;margin:20vh;margin-left:95vh;z-index:99;">
-    <h2 id="givenAmount" value="" style="width:50vh"></h2>
-</div>
-<div class="row" style="margin:0px;padding:0px;">
-    <div class="col-12 text-center" style="min-height:49vh;max-height:49vh;overflow:hidden;margin:0px;padding:0px;">
-        <div class="row">
-            <div class="col-12" style="background-color:#E51937;height:3vh;color:#FFF;border: 1px solid black">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-3 text-start">
-                            {{ $cashierName }}
-                        </div>
-                        <div class="col-6 text-center">
-                            {{$branch->name}} - {{$branch->phone}}
-                        </div>
-                        <div id="date-time" class="col-3 text-end">
-                            {{date('Y-m-d H:i:s')}}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-7" style="min-height:49vh;overflow:hidden;margin:0px;padding:0px">
-                <div class="row">
-                    <div class="col-12">
-                        <h4 id="customerId" value=""></h4>
-                        <input id="invoiceID" type="hidden" value="">
-                    </div>
-                    @if($invoices)
-                        @foreach($invoices as $invoice)
-                            <div class="col-4" style="{{Carbon\Carbon::create($invoice->created_at)->addWeeks(1)->lessThan(Carbon\Carbon::create()) ? 'background:#c41d1d;color:#FFF !important;' : 'color:#000 !important;'}}margin:0px !important;padding:0px !important;border: 1px solid black">
-                                <a id="{{$invoice->id}}" customer-id="{{$invoice->customer_id}}" name="{{$invoice->getCustomerFullname()}}" class="invoices-list btn btn-lg" style="min-height:12vh;max-height:12vh;height:100%;width:100%; margin:0px !important;padding:0px !important;overflow:hidden;border-radius:0px;">
-                                    <b class="h5"><li style="{{Carbon\Carbon::create($invoice->created_at)->addWeeks(1)->lessThan(Carbon\Carbon::create()) ? 'background:#c41d1d;color:#FFF !important;' : 'color:#000 !important;'}}list-style-type: none;overflow:hidden;padding:2px;border-radius: 5px;opacity: 0.85;">{{$invoice->getCustomerFirstName()}}</li></b>
-                                    <b class="h5"><li style="{{Carbon\Carbon::create($invoice->created_at)->addWeeks(1)->lessThan(Carbon\Carbon::create()) ? 'background:#c41d1d;color:#FFF !important;' : 'color:#000 !important;'}}list-style-type: none;overflow:hidden;padding:2px;border-radius: 5px;opacity: 0.85;">{{$invoice->getCustomerLastName()}}</li></b>
-                                    <b class="h5"><li style="color:#000;list-style-type: none;overflow:hidden;padding:2px;border-radius: 5px;opacity: 0.85;">{{$invoice->getTotalPrice()}}$<br /></li></b>
-                                </a>
-                            </div>
-                        @endforeach
-                    @endif
-                </div>
-            </div>
-            <div class="col-5">
-                <div id="shoppingCart" class="col-12" style="min-height:42vh;max-height:42vh;background:#F8F8F8;padding:0px;overflow:hidden !important;">
-                </div>
-                <div class="col-12 text-start" style="min-height:3vh;">
-                    <div class="row">
-                        <div class="col-6 text-start">
-                            <h4><b>Total</b></h4>
-                        </div>
-                        <div class="col-6 text-end">
-                        <div class="col-4">
-                        </div>
-                            <h4 class="text-danger text-end"><b id="totalPrice" value="">0,00 $</b></h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-12" style="min-height:48vh;max-height:48vh;overflow:hidden;margin:0px;padding:0px">
-        <div class="row">
-            <div id="items" class="col-8 text-center" style="overflow:hidden;margin:0px;padding:0px;">
-                <div class="row">
-                    <div class="col-2" style="margin:0px !important;padding:0px !important;border: 0.5px solid black">
-                        <a class="btn btn-lg" href="/{{$fullBranchID}}/pos?token={{$token}}" style="min-height:12vh;max-height:12vh;height:100%;width:100%; margin:0px !important;padding:0px !important;overflow:hidden;border-radius:0px;">
-                            <li style="margin-top:3vh;list-style-type: none;overflow:hidden;padding-top:0px !important;padding:2px;color: #f00;border-radius: 5px;opacity: 0.85;">Fermer<br />session</li>
-                        </a>
-                    </div>                        
-                    @foreach($catalog as $item)
-                        <div class="col-2" style="margin:0px !important;padding:0px !important;border: 0.5px solid black;">
-                            <a id="{{$item->id}}" {{$item->getQuantity() == 0 ? ('price=' . $item->price. ' name=' . $item->name) : ''}} class="{{$item->getQuantity() == 0 ? 'items' : ''}} btn btn-lg" data-bs-toggle="modal" data-bs-target="#{{$item->name}}Modal" style="min-height:12vh;height:100%;width:100%; margin:0px !important;padding:0px !important;min-height:12vh;max-height:12vh;background-image: url({{$item->image}}); background-color: #ffffff;background-size: cover;background-repeat: no-repeat;background-position: center; border: none;border-radius:0px;">
-                                @if(!is_null($item->inventory) && $item->inventory == 0)
-                                    <span class="text-danger" style="z-index:99;position:absolute;margin:-25px;margin-top:-12px;padding:0px"><h1 style="font-size: 70px;color:#F00;text-shadow:1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;">X</h1></span>
-                                @elseif(!is_null($item->inventory) && $item->inventory <= $item->alert_threshold)
-                                    <span class="text-warning" style="z-index:99;position:absolute;margin:-12px;margin-top:-12px;padding:0px"><h1 style="font-size: 70px;color:#FF0;text-shadow:1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;">!</h1></span>
-                                @endif
-                                <li style="font-weight: bold;padding-top:50px;list-style-type:none;overflow:hidden;padding-top:4vh;{{$item->image ? 'color: #FFF; text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;' : 'color:#000;'}}">{{$item->name}}</li>
-                                @if($item->getQuantity() == 0)
-                                    <span style="margin-top:2px;padding:2px;{{$item->image ? 'color: #FFF; text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;' : 'color:#000;'}}border-radius: 5px;opacity: 0.85;">{{$item->price}} $</span>
-                                @endif
-                            </a>
-                        </div>
-                        @if($item->getQuantity() > 0)
-                        <!-- Modal start-->
-                            <div id="{{$item->name}}Modal" class="modal fade" tabindex="-1" role="dialog">
-                                <div class="modal-dialog modal-fullscreen modal-dialog modal-fullscreen-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title">{{$item->name}}</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                @foreach($item->getVariations() as $variation)
-                                                    <div class="col-2" style="margin:0px !important;padding:0px !important;border: 1px solid black">
-                                                        <a id="{{$item->id}};{{$variation->id}}" name="{{$variation->name}}" price="{{$variation->price}}" class="items btn btn-lg" data-bs-dismiss="modal" style="min-height:12vh;height:100%;width:100%; margin:0px !important;padding:0px !important;min-height:20vh;max-height:20vh;background-image: url({{$variation->image}}); background-color: #ffffff;background-size: cover;background-repeat: no-repeat;background-position: center;">
-                                                            @if(!is_null($variation->inventory) && $variation->inventory == 0)
-                                                                <span class="text-danger" style="z-index:99;position:absolute;margin:-25px;margin-top:10px;padding:0px"><h1 style="font-size: 70px;color:#F00;text-shadow:1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;">X</h1></span>
-                                                            @elseif(!is_null($variation->inventory) && $variation->inventory <= $variation->alert_threshold)
-                                                                <span class="text-warning" style="z-index:99;position:absolute;margin:-12px;margin-top:12px;padding:0px"><h1 style="font-size: 70px;color:#FF0;text-shadow:1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;">!</h1></span>
-                                                            @endif
-                                                            <li style="font-weight: bold;;margin:8vh;margin-left:2vh !important;margin-bottom:2px;list-style-type: none;{{ $variation->image ? 'background-color:#000;color:#FFF;': 'color: #000;'}}border-radius: 5px;opacity: 0.85;">{{$variation->name}}</li>
-                                                            <span style="margin-top:2px;padding:2px;{{ $variation->image ? 'background-color:#000;color:#FFF;': 'color: #000;'}}border-radius: 5px;opacity: 0.85;">{{$variation->price}} $</span>
-                                                        </a>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!-- Modal end-->
-                        @endif
-                    @endforeach
-                    <!-- Button trouver client -->
-                    <div class="col-2" style="margin:0px !important;padding:0px !important;border: 0.5px solid black;">
-                        <a id="" class="btn btn-lg" data-bs-toggle="modal" data-bs-target="#customerModal" style="min-height:12vh;height:100%;width:100%; margin:0px !important;padding:0px !important;min-height:12vh;max-height:12vh;">
-                            <li style="font-weight: bold;padding-top:50px;list-style-type:none;overflow:hidden;padding-top:3vh;color: #000;">Trouver<br />client</li>
-                        </a>
-                    </div>
-                    <!-- Modal start-->
-                            <div id="customerModal" class="modal fade" tabindex="-1" role="dialog">
-                                <div class="modal-dialog modal-fullscreen modal-dialog modal-fullscreen-centered" role="document">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                            <h4 class="modal-title">Assigner client</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col-2" style="border:0.5px solid black;margin;0px;padding:0px;">
-                                                    <a class="customer btn btn-lg" style="color:red;min-height:75px !important;max-height:75px !important; height:100%;width:100%;" data-bs-dismiss="modal" value="remove">
-                                                        <b>Enlever client</b>
-                                                    </a>
-                                                </div>
-                                                @foreach($customers as $customer)
-                                                    <div class="col-2" style="border:0.5px solid black;margin;0px;padding:0px;">
-                                                        <a class="customer btn btn-lg" style="color:black;min-height:75px !important;max-height:75px !important; height:100%;width:100%;" data-bs-dismiss="modal" value="{{$customer->id}}" name="{{$customer->firstname}} {{$customer->lastname}}">
-                                                            <b>{{$customer->firstname}}<br />{{$customer->lastname}}</b>
-                                                        </a>
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-bs-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div><!-- Modal end-->
-                            @if($hasKitshopAccess)
-                                <div class="col-2" style="margin:0px !important;padding:0px !important;border: 0.5px solid black;">
-                                    <a id="kitshop" class="kitshop variable-price btn btn-lg disabled" style="min-height:12vh;height:100%;width:100%; margin:0px !important;padding:0px !important;min-height:12vh;max-height:12vh;background-image: url(); background-color: #ffffff;background-size: cover;background-repeat: no-repeat;background-position: center; border: none" disabled>
-                                        <span class="text-danger" style="z-index:99;position:absolute;margin:-25px;margin-top:5px;padding:0px"><h1 style="font-size: 70px;color:#F00;text-shadow:1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;">X</h1></span>
-                                        <li style="font-weight: bold;padding-top:50px;list-style-type:none;overflow:hidden;padding-top:4vh;{{null /*image*/? 'color: #FFF; text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;' : 'color:#000;'}}">Kitshop</li>
-                                        <span style="margin-top:2px;padding:2px;{{null /*image*/ ? 'color: #FFF; text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;' : 'color:#000;'}}border-radius: 5px;opacity: 0.85;">Variable</span>
-                                    </a>
-                                </div>
-                            @endif
-                            <!-- Fill out the rest of the blank square with empty button -->
-                            @for($i = 0; $i < 24; $i++)
-                                <div class="col-2" style="margin:0px !important;padding:0px !important;border: 0.5px solid black">
-                                    <a class="btn btn-lg disabled" style="min-height:12vh;height:100%;width:100%; margin:0px !important;padding:0px !important; border: none">
-                                        
-                                    </a>
-                                </div>
-                            @endfor
-                        </div>
-                    </div>
-            <div id="numpad" class="col-3 text-center" style="min-height:49vh;max-height:49vh;overflow:hidden;margin:0px;padding:0px">
-                <div class="row" style="margin:0px;padding:0px">
-                    <div class="col-4" style="margin:0px !important;padding:0px !important;border: 1px solid black;">
-                        <a class="numpad btn btn-lg btn-default" style="min-height:12vh;height:100%;width:100%; margin:0px !important;padding:4vh;height:12vh;" value="7">
-                            7
-                        </a>
-                    </div>
-                    <div class="col-4" style="margin:0px !important;padding:0px !important;border: 1px solid black">
-                        <a class="numpad btn btn-lg btn-default" style="min-height:12vh;height:100%;width:100%; margin:0px !important;padding:4vh;height:12vh;" value="8">
-                            8
-                        </a>
-                    </div>
-                    <div class="col-4" style="margin:0px !important;padding:0px !important;border: 1px solid black">
-                        <a class="numpad btn btn-lg btn-default" style="min-height:12vh;height:100%;width:100%; margin:0px !important;padding:4vh;height:12vh;" value="9">
-                            9
-                        </a>
-                    </div>
-                    <div class="col-4" style="margin:0px !important;padding:0px !important;border: 1px solid black">
-                        <a class="numpad btn btn-lg btn-default" style="min-height:12vh;height:100%;width:100%; margin:0px !important;padding:4vh;height:12vh;" value="4">
-                            4
-                        </a>
-                    </div>
-                    <div class="col-4" style="margin:0px !important;padding:0px !important;border: 1px solid black">
-                        <a class="numpad btn btn-lg btn-default" style="min-height:12vh;height:100%;width:100%; margin:0px !important;padding:4vh;height:12vh;" value="5">
-                            5
-                        </a>
-                    </div>
-                    <div class="col-4" style="margin:0px !important;padding:0px !important;border: 1px solid black">
-                        <a class="numpad btn btn-lg btn-default" style="min-height:12vh;height:100%;width:100%; margin:0px !important;padding:4vh;height:12vh;" value="6">
-                            6
-                        </a>
-                    </div>
-                    <div class="col-4" style="margin:0px !important;padding:0px !important;border: 1px solid black">
-                        <a class="numpad btn btn-lg btn-default" style="min-height:12vh;height:100%;width:100%; margin:0px !important;padding:4vh;height:12vh;" value="1">
-                            1
-                        </a>
-                    </div>
-                    <div class="col-4" style="margin:0px !important;padding:0px !important;border: 1px solid black">
-                        <a class="numpad btn btn-lg btn-default" style="min-height:12vh;height:100%;width:100%; margin:0px !important;padding:4vh;height:12vh;" value="2">
-                            2
-                        </a>
-                    </div>
-                    <div class="col-4" style="margin:0px !important;padding:0px !important;border: 1px solid black">
-                        <a class="numpad btn btn-lg btn-default" style="min-height:12vh;height:100%;width:100%; margin:0px !important;padding:4vh;height:12vh;" value="3">
-                            3
-                        </a>
-                    </div>
-                    <div class="col-8" style="margin:0px !important;padding:0px !important;border: 1px solid black">
-                        <a class="numpad btn btn-lg btn-default" style="min-height:12vh;height:100%;width:100%; margin:0px !important;padding:4vh;height:12vh;" value="0">
-                            0
-                        </a>
-                    </div>
-                    <div class="col-4" style="margin:0px !important;padding:0px !important;border: 1px solid black">
-                        <a class="numpad-backspace btn btn-lg btn-default" style="min-height:12vh;height:100%;width:100%; margin:0px !important;padding:4vh;height:12vh;">
-                            DEL
-                        </a>
-                    </div>
-                </div>
-            </div>
-        <div id="total-menu" class="col-1 text-center" style="min-height:49vh;max-height:49vh;overflow:hidden;margin:0px;padding:0px;writing-mode: vertical-rl;">
-            <div class="row">
-                <div class="col-12" style="margin:0px !important;padding:0px !important;border: 1px solid black">
-                        <a id="total" class="btn btn-lg btn-default" style="min-height:16vh;max-height:12vh;height:100%;width:100%;padding-left:5vh;padding-right:5vh">
-                            Total
-                        </a>
-                    </div>
-                    <div class="col-12" style="margin:0px !important;padding:0px !important;border: 1px solid black">
-                        <a id="createInvoice" class="btn btn-lg btn-default" style="min-height:16vh;max-height:12vh;height:100%;width:100%; margin:0px !important;padding-left:5vh;padding-right:5vh">
-                            Facture 
-                        </a>
-                    </div>
-                    <div class="col-12" style="margin:0px !important;padding:0px !important;border: 1px solid black">
-                        <a id="promotion" class="btn btn-lg btn-default" style="min-height:16vh;max-height:12vh;height:100%;width:100%; margin:0px !important;padding-left:5vh;padding-right:5vh">
-                            Promotion
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-12 text-center" style="background-color:#E51937;height:3vh;color:#FFF;border:1px solid black;border-top:none;">
-        Créé et maintenu par Service Technologique J.Bédard - 819-852-8705
-    </div>
-</div>
-<script>
-$(document).ready(function() {
-    setInterval(function() {
-        var currentDate = new Date();
-        var formattedDate = currentDate.getFullYear() + '-' +
-            String(currentDate.getMonth() + 1).padStart(2, '0') + '-' +
-            String(currentDate.getDate()).padStart(2, '0') + ' ' +
-            String(currentDate.getHours()).padStart(2, '0') + ':' +
-            String(currentDate.getMinutes()).padStart(2, '0') + ':' +
-            String(currentDate.getSeconds()).padStart(2, '0');
-        $('#date-time').text(formattedDate);
-    }, 1000);
-
-    $('.items').on('click', function(){
-        $('#givenAmount').html('');
-        $('#givenAmount').attr('value', '');
-        var realAmount = $('#amount').attr('value');
-        var amount = (Number($('#amount').attr('value')) == 0) ? '1' : $('#amount').attr('value')
-        $('#amount').html('');
-        $('#amount').attr('value', '')
-        var total = 0;
-        var html = $('#shoppingCart').html();
-        if($(this).hasClass('variable-price')) {
-            console.log(true)
-            html += '<a class="cart-item btn btn-lg" style="width:100%;border:1px solid #CCC; min-height:3vh;max-height:5vh;border-radius:5px;padding:0px;color:#000;">'+
-                    '<div class="row">'+
-                        '<div class="col-6 text-start">'+
-                            '<h5><b>1 x ' + $(this).attr('name') + '</b></h5>'+
-                        '</div>'+
-                        '<div class="col-6 text-end">'+
-                            '<h5><b class="item-price" value="' + Number(realAmount.slice(0, realAmount.length-2) + '.' + realAmount.slice(realAmount.length -2, realAmount.length)) + '">' + Number(realAmount.slice(0, realAmount.length-2) + '.' + realAmount.slice(realAmount.length -2, realAmount.length)).toLocaleString('fr-CA', { style: 'currency', currency: 'CAD'}) + '</b></h5>'+
-                        '</div>'+
-                    '</div>'+
-                '</a>';
-        } else {
-            html += '<a class="cart-item btn btn-lg" category="' + $(this).attr('id').split(';')[0] + '" item="' + $(this).attr('id').split(';')[1] + '" quantity="' + Number(amount) + '" price="' + Number($(this).attr('price')) + '" style="width:100%;border:1px solid #CCC; min-height:3vh;max-height:5vh;border-radius:5px;padding:0px;color:#000;">'+
-                        '<div class="row">'+
-                            '<div class="col-6 text-start">'+
-                                '<h5><b>' + Number(amount) + ' x ' + $(this).attr('name') + '</b></h5>'+
-                            '</div>'+
-                            '<div class="col-6 text-end">'+
-                                '<h5><b class="item-price" value="' + Number($(this).attr('price')) * Number(amount) + '">' + (Number($(this).attr('price')) * Number(amount)).toLocaleString('fr-CA', { style: 'currency', currency: 'CAD'}) + '</b></h5>'+
-                            '</div>'+
-                        '</div>'+
-                    '</a>';
-        }
-        $('#shoppingCart').html(html);
-        $('.item-price').each(function(key, item) {
-            total += Number(item.getAttribute('value'));
-        });
-        $('#totalPrice').attr('value',total);
-        $('#totalPrice').html(total.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD'}));
-
-        $('.cart-item').on('click', function() {
-            var total = 0;
-            $(this).remove();
-            $('.item-price').each(function(key, item) {
-                total += Number(item.getAttribute('value'));
-            });
-            $('#totalPrice').attr('value', total);
-            $('#totalPrice').html(total.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD'}));
-        }); 
-    });
-
-    $('.numpad').on('click', function() {
-        var html = "";
-        var oldValue = $('#amount').attr('value');
-        html = oldValue + $(this).attr('value')
-        $('#amount').attr('value', oldValue + $(this).attr('value'));
-        $('#amount').html(Number(html.slice(0, html.length-2) + '.' + html.slice(html.length -2, html.length)).toLocaleString('fr-CA', { style: 'currency', currency: 'CAD'}));
-    }); 
-    $('.numpad-backspace').on('click', function() {
-        var value = 0;
-        value = $('#amount').attr('value').substring(0, $('#amount').attr('value').length -1);
-        $('#amount').attr('value', Number(value));
-        if(Number(value) == 0) {
-            $('#amount').html('')
-        } else {
-            $('#amount').html(Number(value.slice(0, value.length-2) + '.' + value.slice(value.length -2, value.length)).toLocaleString('fr-CA', { style: 'currency', currency: 'CAD'}));
-        }
-    }); 
-    $('#total').on('click', function() {
-        var value = 0;
-        var givenBack = 0;
-        var exactPrice = 0;
-        value = $('#amount').attr('value')
-        givenBack = (Number(value.slice(0, value.length-2) + '.' + value.slice(value.length -2, value.length)) - Number($('#totalPrice').attr('value')));
-        if (isNaN(givenBack)) {
-            registerPayment(false);
-            $('#givenAmount').html('Remise: ' + exactPrice.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD'}));
-            $('#givenAmount').addClass('text-success');
-            $('#givenAmount').removeClass('text-danger');
-            $('#amount').attr('value', '0');
-            $('#amount').html('');
-            $('#totalPrice').attr('value', '0');
-            $('#totalPrice').html(exactPrice.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD'}));
-            $('.cart-item').each(function() {
-                $(this).remove();
-            })
-        }else if(givenBack < 0) {
-            $('#givenAmount').html('Remise invalide');
-            $('#givenAmount').addClass('text-danger');
-            $('#givenAmount').removeClass('text-success');
-            $('#amount').attr('value', '0');
-            $('#amount').html('');
-        } else {
-            registerPayment(false);
-            $('#givenAmount').html('Remise: ' + givenBack.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD'}));
-            $('#givenAmount').addClass('text-success');
-            $('#givenAmount').removeClass('text-danger');
-            $('#amount').attr('value', '0');
-            $('#amount').html('');
-            $('#totalPrice').attr('value', '0');
-            $('#totalPrice').html(exactPrice.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD'}));
-            $('.cart-item').each(function() {
-                $(this).remove();
-            })
-        }
-    });
-
-    $('#createInvoice').on('click', function() {
-        if($('#customerId').attr('value') === '') {
-            $('#givenAmount').html('Client obligatoire pour facture');
-            $('#givenAmount').addClass('text-danger');
-            $('#givenAmount').removeClass('text-success');
-        } else {
-            var cartItems = [];
-            var customerID = $('#customerId').attr('value');
-            var invoiceID = $('#invoiceID').attr('value');
-            $('.cart-item').each(function(key, item) {
-                cartItems.push({
-                    'category_id': $(this).attr('category'),
-                    'item_id': $(this).attr('item'),
-                    'price' : $(this).attr('price'),
-                    'quantity': $(this).attr('quantity'),
-                });
-            });
-            $.ajax({
-                url: "/{{$fullBranchID}}/pos/invoice/edit?token={{$token}}",
-                type: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: {
-                    'customer_id': customerID,
-                    'items': cartItems,
-                    'cashier_id': {{$cashier_id}},
-                    'is_promotion' : false,
-                    'invoice_id': invoiceID,
-                    'menu': 'menu'
-                },
-                success: function (result) {
-                    $('.cart-item').each(function(key, item) {
-                        $('.cart-item').each(function() {
-                            $(this).remove();
-                        })
-                    });
-                    console.log('success');
-                },
-                error: function (error) {
-                    console.log(error);
-                },
-                complete: function() {
-                    window.location.reload();
-                }
-            });
-        }
-    });
-
-
-    $('#promotion').on('click', function() {
-        var value = 0;
-        var givenBack = 0;
-        var exactPrice = 0;
-        registerPayment(true);
-        $('#givenAmount').html('Remise: ' + givenBack.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD'}));
-        $('#givenAmount').addClass('text-success');
-        $('#givenAmount').removeClass('text-danger');
-        $('#amount').attr('value', '0');
-        $('#amount').html('');
-        $('#totalPrice').attr('value', '0');
-        $('#totalPrice').html(exactPrice.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD'}));
-        $('.cart-item').each(function() {
-            $(this).remove();
-        })
-    });
-
-    $('.physical-count').each(function() {
-        var item = $(this);
-        $.ajax({
-            url: "/{{$fullBranchID}}/pos/getInventory/" + $(this).attr('id') + "?token={{$token}}",
-            type: "GET",
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function (result) {
-                if(Number(result) == 0) {
-                    item.html('<h1 style="font-size: 70px;color:#f00;text-shadow:1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;margin-top:5px;">X</h1>');
-                } else if(Number(result) <= Number(item.attr('warning'))) {
-                    item.html('<h1 style="font-size: 70px;color:#fF0;text-shadow:1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;margin-top:5px;">!</h1>');
-                }
-            }
-        })
-    });
-
-    function registerPayment(isPromotion) {
-        var cartItems = [];
-        var customerID = $('#customerId').attr('value');
-        var invoiceID = $('#invoiceID').attr('value');
-        $('.cart-item').each(function(key, item) {
-            cartItems.push({
-                'category_id': $(this).attr('category'),
-                'item_id': $(this).attr('item'),
-                'price' : $(this).attr('price'),
-                'quantity': $(this).attr('quantity'),
-            });
-        });
-        $.ajax({
-            url: "/{{$fullBranchID}}/pos/pay?token={{$token}}",
-            type: "POST",
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: {
-                'invoice_id': invoiceID,
-                'items': cartItems,
-                'cashier_id': {{$cashier_id}},
-                'is_promotion' : isPromotion ? true : null,
-                'menu': 'menu',
-                'customer_id': $('#customerId').attr('value'),
-            },
-            success: function (result) {
-                $('.cart-item').each(function(key, item) {
-                    adjustInventory(item);
-                });
-                console.log('success');
-            },
-            error: function (error) {
-                console.log(error);
-            },
-            complete: function() {
-                window.location.reload();
-            }
-        });
-    }
-
-    function adjustInventory(item) {
-        $.ajax({
-            url: "/{{$fullBranchID}}/pos/inventory?token={{$token}}",
-            type: "POST",
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            data: {
-                'category_id': $(item).attr('category'),
-                'item_id': $(item).attr('item'),
-                'quantity': $(item).attr('quantity'),
-
-            },
-            success: function (result) {
-                console.log('success');
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        })
-    }
-
-    $('.customer').on('click', function() {
-        if($(this).attr('value') === 'remove') {
-            $('#customerId').attr('value', '');
-            $('#customerId').html('')
-        } else {
-        $('#customerId').attr('value', $(this).attr('value'));
-        $('#customerId').html($(this).attr('name'))
-        }
-    });
-
-    $('.invoices-list').on('click', function() {
-        var newInvoiceID = $(this).attr('id');
-        if($('#invoiceID').attr('value') == newInvoiceID) {
-            $('#invoiceID').attr('value', '');
-            $('#customerId').attr('value', '');
-            $('#customerId').html('');
-            $('.cart-item').each(function() {
-                $(this).remove();
-                var total = 0;
-                $('#totalPrice').attr('value', total);
-                $('#totalPrice').html(total.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD'}));
-            });
-        } else {
-            var customerName = $(this).attr('name');
-            var customerID = $(this).attr('customer-id');
-            var invoiceID = $(this).attr('id');
-            $('#customerId').attr('value', customerID);
-            $('#customerId').html(customerName);
-            $('#invoiceID').attr('value', invoiceID);
-            var html = '';
-            @foreach($transactions as $item)
-                if({{$item->invoice_id}} == invoiceID) {
-                    html += '<a class="cart-item btn btn-lg" category="{{$item->category_id}}" item="{{$item->item_id}}" quantity="' + Number({{$item->quantity}}) + '" price="' + Number({{$item->price}}) + '" style="width:100%;border:1px solid #CCC; min-height:3vh;max-height:5vh;border-radius:5px;padding:0px;color:#000;">'+
-                                '<div class="row">'+
-                                    '<div class="col-6 text-start">'+
-                                        '<h5><b>' + Number({{$item->quantity}}) + ' x {{$item->getItemName() ? $item->getItemName() : $item->getCategoryName()}}</b></h5>'+
-                                    '</div>'+
-                                    '<div class="col-6 text-end">'+
-                                        '<h5><b class="item-price" value="' + Number({{$item->price  * $item->quantity}}) + '">' + (Number({{$item->price}}) * Number({{$item->quantity}})).toLocaleString('fr-CA', { style: 'currency', currency: 'CAD'}) + '</b></h5>'+
-                                    '</div>'+
-                                '</div>'+
-                            '</a>';
-                }
-            @endforeach
-            $('#shoppingCart').html(html);
-            var total = 0;
-            $('.item-price').each(function(key, item) {
-                total += Number(item.getAttribute('value'));
-            });
-            $('#totalPrice').attr('value', total);
-            $('#totalPrice').html(total.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD'}));
-
-            $('.cart-item').on('click', function() {
-                var total = 0;
-                $(this).remove();
-                $('.item-price').each(function(key, item) {
-                    total += Number(item.getAttribute('value'));
-                });
-                $('#totalPrice').attr('value', total);
-                $('#totalPrice').html(total.toLocaleString('fr-CA', { style: 'currency', currency: 'CAD'}));
-            }); 
-        }
+// Gestion catégories
+document.querySelectorAll('.category-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+        const id = btn.getAttribute('category-id');
+        document.querySelectorAll('.item-card').forEach(i=>i.style.display='none');
+        document.querySelectorAll('.'+id).forEach(i=>i.style.display='block');
     });
 });
 
-$(document).ready(function() {
-    window.onInactive();
+// Ajouter item
+document.getElementById('items-container').addEventListener('click', e=>{
+    let card = e.target.closest('.item-card');
+    if(!card) return;
+    const name = card.querySelector('h6').textContent;
+    let price = parseFloat(card.querySelector('p').textContent.replace(' $',''));
+    if(isMember===false) price+=memberFee;
+
+    let existing = [...orderList.querySelectorAll('.order-item')].find(i=>i.dataset.name===name);
+    if(existing){
+        let qty = existing.querySelector('.qty');
+        qty.textContent=parseInt(qty.textContent)+1;
+        existing.style.background="#2e7d32";
+        setTimeout(()=>existing.style.background="#333",150);
+    } else {
+        const div = document.createElement('div');
+        div.classList.add('order-item');
+        div.dataset.name=name;
+        div.dataset.price=price;
+        div.style.padding='10px 5px';
+        div.style.borderBottom='1px solid #555';
+        div.style.cursor='pointer';
+        div.style.transition='background 0.2s';
+        div.style.borderRadius='2px';
+        div.innerHTML=`
+            <h6 style="width:100%;display:flex;justify-content:space-between;margin:0;">
+                <span><span class="qty">1</span> x ${name}</span>
+                <span>${price.toFixed(2)} $</span>
+            </h6>
+        `;
+        div.addEventListener('click', ()=>{
+            div.style.background="#c62828";
+            setTimeout(()=>{
+                let qtyElem=div.querySelector('.qty');
+                let qty=parseInt(qtyElem.textContent)-1;
+                if(qty<=0) div.remove();
+                else { qtyElem.textContent=qty; div.style.background="#333"; }
+                updateTotal();
+            },120);
+        });
+        orderList.appendChild(div);
+        div.style.background="#2e7d32";
+        setTimeout(()=>div.style.background="#333",150);
+    }
+    updateTotal();
 });
 
-function onInactive(){
-    var wait = setTimeout(doInactive, 300000); 
-    document.onmousemove = document.mousedown = document.mouseup = document.onkeydown = document.onkeyup = document.focus = function(){
-        clearTimeout(wait);
-        wait = setTimeout(doInactive, 300000);
-    };
+// TOTAL
+function updateTotal(){
+    let total=0;
+    orderList.querySelectorAll('.order-item').forEach(item=>{
+        let qty=parseInt(item.querySelector('.qty').textContent);
+        let price=parseFloat(item.dataset.price);
+        total+=qty*price;
+    });
+    totalElem.textContent=total.toFixed(2);
 }
 
-function doInactive() {
-    document.location.href = '/{{$fullBranchID}}/pos?token={{$token}}'
+// CLEAR / CANCEL
+document.getElementById("clear-order").addEventListener("click", ()=>{
+    document.querySelectorAll(".order-item").forEach(item=>item.remove());
+    updateTotal();
+});
+document.getElementById("cancel-order").addEventListener("click", ()=>{
+    document.querySelectorAll(".order-item").forEach(item=>item.remove());
+    updateTotal();
+    $('#memberModal').modal('show');
+});
+
+// Ouvrir modal membre
+$(document).ready(()=>{
+    $('#memberModal').modal({backdrop:'static',keyboard:false});
+    $('#memberModal').modal('show');
+    $('#member-btn').click(()=>{ isMember=true; $('#memberModal').modal('hide'); });
+    $('#non-member-btn').click(()=>{ isMember=false; $('#memberModal').modal('hide'); });
+});
+
+// Ouvrir modal numpad
+$('#cash-btn').click(()=>{ $('#keypadModal').modal('show'); });
+
+// CONFIRMER depuis numpad
+$('#keypad-confirm').click(()=>{
+    let amount = parseFloat($('#inputAmount').val());
+    if(isNaN(amount)) amount = 0;
+
+    // Ici tu peux faire ton Ajax pour enregistrer la transaction
+    let cartItems = [];
+    $('.order-item').each(function(){
+        cartItems.push({
+            category_id: $(this).data('category')||null,
+            item_id: $(this).data('item')||null,
+            price: $(this).data('price'),
+            quantity: parseInt($(this).find('.qty').text())
+        });
+    });
+
+    $.ajax({
+        url: "/{{$fullBranchID}}/pos/pay?token={{$token}}",
+        type:"POST",
+        headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
+        data:{
+            items: cartItems,
+            cashier_id: {{$cashier_id}},
+            menu:'menu',
+            customer_id: $('#customerId').val(),
+            amount: amount,
+        },
+        success:function(){
+            $('.order-item').each(function(){ adjustInventory(this); });
+            $('.order-item').remove();
+            updateTotal();
+            $('#keypadModal').modal('hide');
+        },
+        error:function(err){ console.log(err); }
+    });
+});
+
+// ADJUST INVENTORY
+function adjustInventory(item){
+    $.ajax({
+        url: "/{{$fullBranchID}}/pos/inventory?token={{$token}}",
+        type:"POST",
+        headers:{'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
+        data:{
+            category_id: $(item).data('category'),
+            item_id: $(item).data('item'),
+            quantity: $(item).find('.qty').text()
+        },
+        success:function(){ console.log('success'); },
+        error:function(err){ console.log(err); }
+    });
 }
 </script>
+
 @endsection
