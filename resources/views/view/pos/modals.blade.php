@@ -1,13 +1,14 @@
 {{-- MEMBER MODAL --}}
 <div class="modal fade" id="memberModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content bg-dark text-white">
       <div class="modal-header">
-        <h5 class="modal-title">Êtes-vous membre?</h5>
+        <h5 class="modal-title">Est-ce que le client est membre?</h5>
       </div>
-      <div class="modal-body d-flex justify-content-around">
-        <button id="member-btn" class="btn btn-success px-4">Membre</button>
-        <button id="non-member-btn" class="btn btn-warning px-4">Non-Membre</button>
+      <div class="modal-body">
+        <button id="member-btn" class="btn btn-lg btn-success form-control px-4 py-3">Membre</button>
+        <br /><br />
+        <button id="non-member-btn" class="btn btn-lg btn-warning form-control px-4 py-3">Non-Membre</button>
       </div>
     </div>
   </div>
