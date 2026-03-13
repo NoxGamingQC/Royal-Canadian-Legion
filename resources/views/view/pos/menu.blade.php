@@ -144,7 +144,8 @@ $branch = Branches::where('command', $branchCommand)
             </button>
         </div>
         <div class="col-3 p-1">
-            <button class="w-100 h-100" style="background:#2196F3;color:#fff;border:none;" disabled>
+        {{--#2196F3--}}
+            <button class="w-100 h-100" style="background:#213653;color:#888;border:none;" disabled>
                 DÉBIT
             </button>
         </div>
