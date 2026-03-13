@@ -17,13 +17,13 @@ $branch = Branches::where('command', $branchCommand)
     {{-- TOP BAR --}}
     <div class="row m-0 align-items-center" style="height:5%;background:#111;color:#fff;border-bottom:1px solid #333;">
         <div class="col-2 d-flex align-items-center">
-            <h5 class="m-0">{{ $cashierName }}</h5>
+            <h6 class="m-0">{{ $cashierName }}</h6>
         </div>
         <div class="col-8 d-flex justify-content-center align-items-center">
-            <h5 class="m-0">{{ $branch->name }} - {{ $branch->phone }}</h5>
+            <h6 class="m-0">{{ $branch->name }} - {{ $branch->phone }}</h6>
         </div>
         <div class="col-2 d-flex align-items-center">
-            <a class="btn btn-danger w-100 h-100 d-flex align-items-center justify-content-center"
+            <a class="btn btn-sm btn-danger w-100 h-100 d-flex align-items-center justify-content-center"
                href="/{{ $fullBranchID }}/pos?token={{$token}}"
                style="border-radius:0;border:none;">
                 Déconnexion
