@@ -46,6 +46,19 @@ $('.key-btn').click(function(){
 });
 $('#keypad-clear').click(()=>$('#inputAmount').val(''));
 
+$('#keypad-confirm').click(function(){
+    let amount = parseFloat($('#inputAmount').val());
+    if (isNaN(amount)) {
+        amount = 0;
+    }
+    // Mettre à jour le Montant reçu et le Change ici
+    $('#amountReceived').text(amount.toFixed(2));
+    let total = parseFloat($('#totalAmount').text()) || 0;
+    let change = amount - total;
+    $('#changeAmount').text(change.toFixed(2));
+    $('#keypadModal').modal('hide');
+});
+
 $('#keypadModal').on('hidden.bs.modal', function () {
     $('#inputAmount').val(''); // réinitialise le montant
 });

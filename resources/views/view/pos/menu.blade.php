@@ -68,13 +68,14 @@ $branch = Branches::where('command', $branchCommand)
                                 'name'=>$category->name,
                                 'price'=>$category->price,
                                 'image'=>$category->image,
-                                'is_active'=>$category->is_active
+                                'is_active'=>$category->is_active,
+                                'id'=>null
                             ]];
                         }
                     @endphp
                     @foreach($variations as $item)
                         @if(isset($item->is_active) && $item->is_active === true)
-                            <div class="col item-card category-{{ $category->id }}" style="display: {{ $loop->parent->first ? 'block':'none' }};cursor:pointer;">
+                            <div class="col item-card category-{{ $category->id }}" data-item-id="{{ $item->id ?? '' }}" style="display: {{ $loop->parent->first ? 'block':'none' }};cursor:pointer;">
                                 <div class="card text-white bg-dark h-100"
                                     style="background-image:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),url({{ $item->image }});background-size:cover;background-position:center;border-radius:5px;border:none;">
                                     <div class="card-body p-2 text-center" style="display:flex;flex-direction:column;justify-content:center;border:1px solid #444;border-radius:5px;">
@@ -101,6 +102,8 @@ $branch = Branches::where('command', $branchCommand)
             </div>
             <div id="order-summary" style="flex:0 0 auto;border-top:1px solid #555;padding-top:10px;">
                 <div><strong style="color:#FF9800">Total:</strong> <span id="order-total">0.00</span> $</div>
+                <div><strong style="color:#FF9800">Montant reçu:</strong> <span id="amount-received">0.00</span> $</div>
+                <div><strong style="color:#FF9800">Change:</strong> <span id="change-amount">0.00</span> $</div>
             </div>
         </div>
     </div>
@@ -127,12 +130,14 @@ $branch = Branches::where('command', $branchCommand)
     </div>
 
     {{-- MODALS --}}
-    @include('view.pos.modals') {{-- contient memberModal + keypadModal --}}
+    @include('view.pos.modals')
 </div>
 
 <script>
 let orderList = document.getElementById('order-items');
 let totalElem = document.getElementById('order-total');
+let amountReceivedElem = document.getElementById('amount-received');
+let changeElem = document.getElementById('change-amount');
 let isMember = null;
 let memberFee = 0.50;
 
@@ -162,8 +167,11 @@ document.getElementById('items-container').addEventListener('click', e=>{
     } else {
         const div = document.createElement('div');
         div.classList.add('order-item');
-        div.dataset.name=name;
-        div.dataset.price=price;
+        div.dataset.name = name;
+        div.dataset.price = price;
+        div.dataset.category = card.className.match(/category-(\d+)/)[1] || null;
+        div.dataset.item = card.dataset.itemId || null;
+
         div.style.padding='10px 5px';
         div.style.borderBottom='1px solid #555';
         div.style.cursor='pointer';
@@ -178,10 +186,10 @@ document.getElementById('items-container').addEventListener('click', e=>{
         div.addEventListener('click', ()=>{
             div.style.background="#c62828";
             setTimeout(()=>{
-                let qtyElem=div.querySelector('.qty');
-                let qty=parseInt(qtyElem.textContent)-1;
+                let qtyElem = div.querySelector('.qty');
+                let qty = parseInt(qtyElem.textContent)-1;
                 if(qty<=0) div.remove();
-                else { qtyElem.textContent=qty; div.style.background="#333"; }
+                else { qtyElem.textContent = qty; div.style.background="#333"; }
                 updateTotal();
             },120);
         });
@@ -189,7 +197,7 @@ document.getElementById('items-container').addEventListener('click', e=>{
         div.style.background="#2e7d32";
         setTimeout(()=>div.style.background="#333",150);
     }
-    updateTotal();
+    updateTotal(); // NE PAS toucher amountReceivedElem ou changeElem ici
 });
 
 // TOTAL
@@ -203,34 +211,58 @@ function updateTotal(){
     totalElem.textContent=total.toFixed(2);
 }
 
+// Fonction pour mettre à jour change uniquement depuis keypad ou membre/non-membre
+function updateChange(amountReceived){
+    let total = parseFloat(totalElem.textContent);
+    let change = amountReceived - total;
+    if(change < 0) change = 0;
+    changeElem.textContent = change.toFixed(2);
+}
+
 // CLEAR / CANCEL
 document.getElementById("clear-order").addEventListener("click", ()=>{
     document.querySelectorAll(".order-item").forEach(item=>item.remove());
     updateTotal();
+    // Ne pas réinitialiser Montant reçu et Change ici
 });
 document.getElementById("cancel-order").addEventListener("click", ()=>{
     document.querySelectorAll(".order-item").forEach(item=>item.remove());
     updateTotal();
     $('#memberModal').modal('show');
+    // Ne pas réinitialiser Montant reçu et Change ici
 });
 
 // Ouvrir modal membre
 $(document).ready(()=>{
     $('#memberModal').modal({backdrop:'static',keyboard:false});
     $('#memberModal').modal('show');
-    $('#member-btn').click(()=>{ isMember=true; $('#memberModal').modal('hide'); });
-    $('#non-member-btn').click(()=>{ isMember=false; $('#memberModal').modal('hide'); });
+    $('#member-btn').click(()=>{
+        isMember=true;
+        $('#memberModal').modal('hide');
+        amountReceivedElem.textContent = "0.00";
+        changeElem.textContent = "0.00";
+    });
+    $('#non-member-btn').click(()=>{
+        isMember=false;
+        $('#memberModal').modal('hide');
+        amountReceivedElem.textContent = "0.00";
+        changeElem.textContent = "0.00";
+    });
 });
 
 // Ouvrir modal numpad
-$('#cash-btn').click(()=>{ $('#keypadModal').modal('show'); });
+$('#cash-btn').click(()=>{ 
+    $('#keypadModal').modal('show'); 
+    $('#inputAmount').val('');
+});
 
 // CONFIRMER depuis numpad
 $('#keypad-confirm').click(()=>{
     let amount = parseFloat($('#inputAmount').val());
     if(isNaN(amount)) amount = 0;
+    amountReceivedElem.textContent = amount.toFixed(2);
+    updateChange(amount);
 
-    // Ici tu peux faire ton Ajax pour enregistrer la transaction
     let cartItems = [];
     $('.order-item').each(function(){
         cartItems.push({
