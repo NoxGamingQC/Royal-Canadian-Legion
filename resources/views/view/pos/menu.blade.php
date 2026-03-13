@@ -120,17 +120,17 @@ $branch = Branches::where('command', $branchCommand)
 
         {{-- ORDER --}}
         <div class="col-3 p-2 d-flex flex-column"
-             style="background:#333;color:#fff;border:1px solid #444;border-left:none;height:100%;">
+             style="background:#151515;color:#fff;border:1px solid #444;border-left:none;height:100%;">
             <div id="order-items" style="flex:1 1 auto;overflow-y:auto;margin-bottom:10px;">
-                <h5>COMMANDE:</h5>
+                <h5 style="color:#FF9800">COMMANDE:</h5>
                 <hr>
             </div>
 
             <div id="order-summary"
-                 style="flex:0 0 auto;border-top:1px solid #555;padding-top:10px;background:#333;">
-                <div><strong>Total:</strong> <span id="order-total">0.00</span> $</div>
-                <div><strong>Montant reçu:</strong> <span id="amount-received">0.00</span> $</div>
-                <div><strong>Change:</strong> <span id="change">0.00</span> $</div>
+                 style="flex:0 0 auto;border-top:1px solid #555;padding-top:10px;">
+                <div><strong style="color:#FF9800">Total:</strong> <span id="order-total">0.00</span> $</div>
+                <div><strong style="color:#FF9800">Montant reçu:</strong> <span id="amount-received">0.00</span> $</div>
+                <div><strong style="color:#FF9800">Change:</strong> <span id="change">0.00</span> $</div>
             </div>
         </div>
 
@@ -199,7 +199,7 @@ $branch = Branches::where('command', $branchCommand)
             qty.textContent = parseInt(qty.textContent) + 1;
 
             existing.style.background = "#2e7d32";
-            setTimeout(() => { existing.style.background = "transparent"; }, 150);
+            setTimeout(() => { existing.style.background = "#333"; }, 150);
         } else {
             const div = document.createElement('div');
 
@@ -211,6 +211,7 @@ $branch = Branches::where('command', $branchCommand)
             div.style.borderBottom = '1px solid #555';
             div.style.cursor = 'pointer';
             div.style.transition = 'background 0.2s';
+            div.style.borderRadius = '2px';
 
             div.innerHTML = `
                 <h6 style="width:100%;display:flex;justify-content:space-between;margin:0;">
@@ -230,7 +231,7 @@ $branch = Branches::where('command', $branchCommand)
                         div.remove();
                     } else {
                         qtyElem.textContent = qty;
-                        div.style.background = "transparent";
+                        div.style.background = "#333";
                     }
 
                     updateTotal();
@@ -239,7 +240,7 @@ $branch = Branches::where('command', $branchCommand)
 
             orderList.appendChild(div);
             div.style.background = "#2e7d32";
-            setTimeout(() => { div.style.background = "transparent"; }, 150);
+            setTimeout(() => { div.style.background = "#333"; }, 150);
         }
 
         updateTotal();
