@@ -114,7 +114,7 @@ $branch = Branches::where('command', $branchCommand)
             <button id="cash-btn" class="w-100 h-100" style="background:#4CAF50;color:#fff;border:none;">ARGENT COMPTANT</button>
         </div>
         <div class="col-3 p-1">
-            <button class="w-100 h-100" style="background:#213653;color:#888;border:none;" disabled>DÉBIT</button>
+            <button id="card-btn" class="w-100 h-100" style="background:#3977cc;color:#fff;border:none;">DÉBIT</button>
         </div>
         <div class="col-3 p-1">
             <button id="clear-order" class="w-100 h-100" style="background:#FF9800;color:#fff;border:none;">EFFACER LA COMMANDE</button>
@@ -252,6 +252,11 @@ $(document).ready(()=>{
 
 // Ouvrir modal numpad
 $('#cash-btn').click(()=>{ 
+    $('#keypadModal').modal('show'); 
+    $('#inputAmount').val('');
+});
+
+$('#card-btn').click(()=>{ 
     $('#keypadModal').modal('show'); 
     $('#inputAmount').val('');
 });
