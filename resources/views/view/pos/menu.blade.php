@@ -233,7 +233,7 @@ document.getElementById("cancel-order").addEventListener("click", ()=>{
 });
 
 // Ouvrir modal membre
-$(document).ready(()=>
+$(document).ready(()=>{
     $('#memberModal').modal({backdrop:'static',keyboard:false});
     $('#memberModal').modal('show');
     $('#member-btn').click(()=>{
